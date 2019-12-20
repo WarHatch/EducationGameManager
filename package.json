@@ -2,7 +2,7 @@
   "name": "education_game_manager",
   "version": "1.0.0",
   "main": "src/index.tsx",
-  "repository": "https://github.com/WarHatch/...",
+  "repository": "https://github.com/WarHatch/EducationGameManeger",
   "author": "Karolis Staskevičius",
   "license": "MIT",
   "scripts": {
@@ -16,6 +16,7 @@
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
+    "@types/react": "^16.9.17",
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2",

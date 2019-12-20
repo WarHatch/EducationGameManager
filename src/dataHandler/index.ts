@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 // interfaces
 import { IGameSessionData } from "./data";
 
-const getSessionData = async (): Promise<IGameSessionData> => {
+export const getSessionData = async (): Promise<IGameSessionData> => {
   const res: AxiosResponse<IGameSessionData> = await axios.post(
     'http://localhost:8090/gameSession/data',
     {
@@ -12,8 +12,4 @@ const getSessionData = async (): Promise<IGameSessionData> => {
   );
   const { data } = res;
   return data;
-}
-
-export default {
-  getSessionData,
 }
