@@ -1,11 +1,9 @@
-import * as React from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 
 // import './style/main.css'
 
 render(
-  // <React.div>
-  //   "I'm aliiive"
-  // </div>
+  <h1>Hello, world!</h1>,
   document.getElementById('app')
-)
+);
