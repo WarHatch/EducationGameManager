@@ -1,11 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import ExamplePage from "./pages/ExamplePage";
+import SessionData from "./pages/SessionData";
 
 // import './style/main.css'
 
 render(
-  <ExamplePage />,
+  <SessionData />,
   document.getElementById('app')
 );

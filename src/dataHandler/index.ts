@@ -3,11 +3,11 @@ import axios, { AxiosResponse } from "axios";
 // interfaces
 import { IGameSessionData } from "./data";
 
-export const getSessionData = async (): Promise<IGameSessionData> => {
+export const getSessionData = async (sessionId: string): Promise<IGameSessionData> => {
   const res: AxiosResponse<IGameSessionData> = await axios.post(
     'http://localhost:8090/gameSession/data',
     {
-      sessionId: "224dc670-2336-11ea-a99f-8d1a44cc7911" //TODO: remove hardcode
+      sessionId
     }
   );
   const { data } = res;
