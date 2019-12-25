@@ -24,22 +24,34 @@ class SessionInstanceData extends Component<P, S> {
     };
   }
 
-  componentDidMount() {
+  updateSessionData() {
     const { sessionId } = this.props;
     getSessionData(sessionId).then((sessionData) => {
-      this.setState({sessionData});
+      this.setState({ sessionData });
     }).catch((error) => {
-      this.setState({error});
+      this.setState({ error });
     })
   }
 
-  renderSessionData(sessionData: IGameSessionData) {
+  componentDidMount() {
+    this.updateSessionData();
+    setInterval(() => {
+      this.updateSessionData();
+    }, 1000);
+  }
+
+  onSend(event) {
+    
+  }
+
+  renderSessionContainer(sessionData: IGameSessionData) {
     return (
-    <>
-      <li>{`avg. reaction time: ${sessionData.averageReactionTime}`}</li>
-      <li>{`correct answers%: ${sessionData.correctPercentage}`}</li>
-      <li>{`full data: ${JSON.stringify(sessionData.fullData)}`}</li>
-    </>
+      <>
+        <li>{`avg. reaction time: ${sessionData.averageReactionTime}`}</li>
+        <li>{`correct answers%: ${sessionData.correctPercentage}`}</li>
+        <li>{`full data: ${JSON.stringify(sessionData.fullData)}`}</li>
+        <button>Send</button>
+      </>
     )
   }
 
@@ -48,14 +60,17 @@ class SessionInstanceData extends Component<P, S> {
 
     return (
       <div className="sessionInstance">
-        <p className="data">{"Data of: "+ this.props.sessionId}</p>
+        <p className="data">{"Data of: " + this.props.sessionId}</p>
         {!error && sessionData === undefined &&
           <p>Loading...</p>
         }
         {error &&
           <div className="error">{error.toString()}</div>
         }
-        {sessionData && (this.renderSessionData(sessionData))}
+        {
+          sessionData &&
+          this.renderSessionContainer(sessionData)
+        }
       </div>
     )
   }
