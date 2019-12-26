@@ -40,17 +40,12 @@ class SessionInstanceData extends Component<P, S> {
     }, 1000);
   }
 
-  onSend(event) {
-    
-  }
-
   renderSessionContainer(sessionData: IGameSessionData) {
     return (
       <>
         <li>{`avg. reaction time: ${sessionData.averageReactionTime}`}</li>
         <li>{`correct answers%: ${sessionData.correctPercentage}`}</li>
         <li>{`full data: ${JSON.stringify(sessionData.fullData)}`}</li>
-        <button>Send</button>
       </>
     )
   }

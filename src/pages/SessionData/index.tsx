@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import SessionInstanceData from "./Components/SessionInstanceData";
 import SessionIdInput from "./Components/SessionIdInput";
+import SessionConfig from "./Components/SessionConfig";
 
 type S = {
   newSessionIdInput: string,
@@ -42,7 +43,10 @@ class Page extends Component<{}, S> {
     return (
       <div className="page">
         {
-          sessionInstances.map((sessionId) => <SessionInstanceData sessionId={sessionId} />)
+          sessionInstances.map((sessionId) => <>
+            <SessionInstanceData sessionId={sessionId} />
+            <SessionConfig sessionId={sessionId} />
+          </>)
         }
         <SessionIdInput
           newSessionIdValue={newSessionIdInput}

@@ -11,3 +11,8 @@ export interface IGameSessionData {
   correctPercentage: number,
   incorrectPercentage: number,
 }
+
+export interface ISessionConfig {
+  sessionId: string,
+  speed: number,
+}
