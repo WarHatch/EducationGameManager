@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { getLatestSessionConfig } from "../../../dataHandler/index";
+import { getLatestSessionConfig, sendLatestSessionConfig } from "../../../dataHandler/index";
 
 // Types
 import { ISessionConfig } from "../../../dataHandler/data";
@@ -49,7 +49,7 @@ class SessionConfig extends Component<P, S> {
     this.getConfigData();
     setInterval(() => {
       this.getConfigData();
-    }, 3000);
+    }, 1000);
   }
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -69,7 +69,10 @@ class SessionConfig extends Component<P, S> {
 
   onSend(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // TODO: implement
+    sendLatestSessionConfig({
+      ...this.state.inputSessionConfig,
+      sessionId: this.props.sessionId,
+    })
   }
 
   renderSessionConfigPanel(sessionData: ISessionConfig) {
