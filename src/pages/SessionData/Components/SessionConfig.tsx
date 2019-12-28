@@ -13,7 +13,7 @@ type S = {
   error: Error,
   sessionConfig: ISessionConfig,
   inputSessionConfig: {
-    speed: number
+    asteroidSpawnPerMinute: number
   },
 }
 
@@ -25,7 +25,7 @@ class SessionConfig extends Component<P, S> {
       error: null,
       sessionConfig: undefined,
       inputSessionConfig: {
-        speed: 0,
+        asteroidSpawnPerMinute: 0,
       },
     };
   }
@@ -80,11 +80,16 @@ class SessionConfig extends Component<P, S> {
       <div className="configPanel">
         <p>Config</p>
         <ul>
-          <li>{"Speed:" + sessionData.speed}</li>
+          <li>{"Asteroid spawn per minute:" + sessionData.asteroidSpawnPerMinute}</li>
         </ul>
         <form onSubmit={(e) => this.onSend(e)}>
-          <label>{"Speed:"}</label>
-          <input name="speed" type="number" value={this.state.inputSessionConfig.speed} onChange={(e) => this.handleInputChange(e)} />
+          <label>{"Asteroid spawn per minute:"}</label>
+          <input
+            name="asteroidSpawnPerMinute"
+            type="number"
+            value={this.state.inputSessionConfig.asteroidSpawnPerMinute}
+            onChange={(e) => this.handleInputChange(e)}
+          />
           <input type="submit" value="Set" />
         </form>
       </div>

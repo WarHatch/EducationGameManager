@@ -14,5 +14,5 @@ export interface IGameSessionData {
 
 export interface ISessionConfig {
   sessionId: string,
-  speed: number,
+  asteroidSpawnPerMinute: number,
 }
