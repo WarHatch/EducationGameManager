@@ -24,7 +24,7 @@ class Page extends Component<{}, S> {
 
   changeNewSessionIdInput(event) {
     this.setState({
-      newSessionIdInput: event.target.value
+      newSessionIdInput: event.target.value.trim()
     })
   }
 
