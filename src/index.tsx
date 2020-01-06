@@ -16,10 +16,10 @@ render(
   <Router>
     <Switch>
       <Route path="/lesson/:id">
-        <CreateLesson />
+        <SessionData />
       </Route>
       <Route exact path="/">
-        <SessionData />
+        <CreateLesson />
       </Route>
       <Route>{'Incorrect URL'}</Route>
     </Switch>

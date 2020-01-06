@@ -17,3 +17,17 @@ export interface ISessionConfig {
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
 }
+
+export interface ILessonCreateData {
+  id: string,
+  teacherId: string,
+  gameType: {
+    type: "asteroid",
+    // TODO: add more config
+    [key: string]: any
+  },
+}
+
+export interface ILesson extends ILessonCreateData {
+  gameTypeJSON: string;
+}

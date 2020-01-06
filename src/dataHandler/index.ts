@@ -1,7 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 
 // interfaces
-import { IGameSessionData, ISessionConfig } from "./data";
+import { IGameSessionData, ISessionConfig, ILessonCreateData, ILesson } from "./data";
+
+
+// Session
 
 export const getSessionData = async (sessionId: string): Promise<IGameSessionData> => {
   const res: AxiosResponse<IGameSessionData> = await axios.post(
@@ -34,3 +37,24 @@ export const sendLatestSessionConfig = async (sessionConfig: ISessionConfig): Pr
   return data;
 }
 
+// Lesson
+interface ILessonResponse {
+  id: string,
+  teacherId: string,
+  gameTypeJSON: string,
+}
+
+export const createLesson = async (lessonData: ILessonCreateData): Promise<ILesson> => {
+  const res: AxiosResponse<ILessonResponse> = await axios.post(
+    'http://localhost:8090/lesson/new',
+    lessonData,
+  );
+  const { data } = res;
+
+  const formattedData: ILesson = {
+    ...data,
+    gameType: JSON.parse(data.gameTypeJSON),
+  }
+
+  return formattedData;
+}

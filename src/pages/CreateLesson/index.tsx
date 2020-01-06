@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import LessonCreate from "./Components/LessonCreate";
+
 type S = {
   gameTypeInput,
 }
@@ -29,21 +31,12 @@ class Page extends Component<{}, S> {
     })
   }
 
-  createNewLesson() {
-  }
-
   render() {
     const { gameTypeInput } = this.state
 
     return (
       <div className="page">
-        test
-        {/* <SessionIdInput
-          newSessionIdValue={newSessionIdInput}
-          addNewSessionInstanceData={(newSessionIdInput) => this.addNewSessionInstanceData(newSessionIdInput)
-          }
-          changeNewSessionIdInput={(event) => this.changeNewSessionIdInput(event)}
-        /> */}
+        <LessonCreate />
       </div>
     )
   }
