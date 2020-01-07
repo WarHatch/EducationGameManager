@@ -10,8 +10,6 @@ import { render } from 'react-dom'
 import SessionData from "./pages/SessionData";
 import CreateLesson from "./pages/CreateLesson";
 
-// import './style/main.css'
-
 render(
   <Router>
     <Switch>
