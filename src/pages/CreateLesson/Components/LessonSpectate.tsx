@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { createLesson } from '../../../dataHandler';
+import { getLesson } from '../../../dataHandler';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Alert } from "react-bootstrap";
 
@@ -8,7 +8,7 @@ type S = {
   lessonIdValue: string,
 }
 
-class SessionForm extends Component<RouteComponentProps, S> {
+class LessonSpectate extends Component<RouteComponentProps, S> {
   constructor(props) {
     super(props);
 
@@ -36,9 +36,8 @@ class SessionForm extends Component<RouteComponentProps, S> {
 
     const { lessonIdValue } = this.state;
     const type = "asteroid";
-
     try {
-      const newLessonData = await createLesson({
+      const newLessonData = await getLesson({
         id: lessonIdValue,
         teacherId: "placeholder",
         gameType: {
@@ -58,7 +57,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
         <label>
-          {"New lesson Id:"}
+          {"Spectate lesson id:"}
         </label>
         <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="add" />
@@ -70,4 +69,4 @@ class SessionForm extends Component<RouteComponentProps, S> {
   }
 }
 
-export default withRouter(SessionForm);
+export default withRouter(LessonSpectate);

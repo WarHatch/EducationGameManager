@@ -3,12 +3,9 @@ import axios, { AxiosResponse } from "axios";
 // interfaces
 import { IGameSessionData, ISessionConfig, ILessonCreateData, ILesson } from "./data";
 
-
-// Session
-
-export const getSessionData = async (sessionId: string): Promise<IGameSessionData> => {
+export const getSessionData = async (lessonId:string, sessionId: string): Promise<IGameSessionData> => {
   const res: AxiosResponse<IGameSessionData> = await axios.post(
-    'http://localhost:8090/gameSession/data',
+    `http://localhost:8090/lesson/${lessonId}/session/data`,
     {
       sessionId
     }
@@ -17,9 +14,9 @@ export const getSessionData = async (sessionId: string): Promise<IGameSessionDat
   return data;
 }
 
-export const getLatestSessionConfig = async (sessionId: string): Promise<ISessionConfig> => {
+export const getLatestSessionConfig = async (lessonId:string,sessionId: string): Promise<ISessionConfig> => {
   const res = await axios.post(
-    'http://localhost:8090/gameSession/config',
+    `http://localhost:8090/lesson/${lessonId}/session/config`,
     {
       sessionId
     }
@@ -28,9 +25,9 @@ export const getLatestSessionConfig = async (sessionId: string): Promise<ISessio
   return data;
 }
 
-export const sendLatestSessionConfig = async (sessionConfig: ISessionConfig): Promise<ISessionConfig> => {
+export const sendLatestSessionConfig = async (lessonId:string, sessionConfig: ISessionConfig): Promise<ISessionConfig> => {
   const res = await axios.post(
-    'http://localhost:8090/gameSession/config/new',
+    `http://localhost:8090/lesson/${lessonId}/session/config/new`,
     sessionConfig,
   );
   const { data } = res;
@@ -46,14 +43,37 @@ interface ILessonResponse {
 
 export const createLesson = async (lessonData: ILessonCreateData): Promise<ILesson> => {
   const res: AxiosResponse<ILessonResponse> = await axios.post(
-    'http://localhost:8090/lesson/new',
+    `http://localhost:8090/lesson/new`,
     lessonData,
   );
   const { data } = res;
+  // @ts-ignore
+  if (data.error !== undefined) throw data;
+  
+  const gameType = JSON.parse(data.gameTypeJSON);
 
   const formattedData: ILesson = {
     ...data,
-    gameType: JSON.parse(data.gameTypeJSON),
+    gameType,
+  }
+
+  return formattedData;
+}
+
+export const getLesson = async (lessonData: ILessonCreateData): Promise<ILesson> => {
+  const res: AxiosResponse<ILessonResponse> = await axios.post(
+    `http://localhost:8090/lesson/`,
+    lessonData,
+  );
+  const { data } = res;
+  // @ts-ignore
+  if (data.error !== undefined) throw data;
+  
+  const gameType = JSON.parse(data.gameTypeJSON);
+
+  const formattedData: ILesson = {
+    ...data,
+    gameType,
   }
 
   return formattedData;

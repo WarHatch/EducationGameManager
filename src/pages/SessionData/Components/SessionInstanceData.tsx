@@ -6,6 +6,7 @@ import { getSessionData } from "../../../dataHandler/index";
 import { IGameSessionData } from "../../../dataHandler/data";
 
 type P = {
+  lessonId: string
   sessionId: string
 }
 
@@ -25,8 +26,9 @@ class SessionInstanceData extends Component<P, S> {
   }
 
   updateSessionData() {
-    const { sessionId } = this.props;
-    getSessionData(sessionId).then((sessionData) => {
+    const { sessionId, lessonId } = this.props;
+
+    getSessionData(lessonId, sessionId).then((sessionData) => {
       this.setState({ sessionData });
     }).catch((error) => {
       this.setState({ error });

@@ -6,6 +6,7 @@ import { getLatestSessionConfig, sendLatestSessionConfig } from "../../../dataHa
 import { ISessionConfig } from "../../../dataHandler/data";
 
 type P = {
+  lessonId: string,
   sessionId: string
 }
 
@@ -33,8 +34,8 @@ class SessionConfig extends Component<P, S> {
   }
 
   getConfigData() {
-    const { sessionId } = this.props;
-    getLatestSessionConfig(sessionId).then((newConfig) => {
+    const { sessionId, lessonId } = this.props;
+    getLatestSessionConfig(lessonId, sessionId).then((newConfig) => {
       this.setState((prevState) => {
         return {
           sessionConfig: {
@@ -71,10 +72,14 @@ class SessionConfig extends Component<P, S> {
 
   onSend(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    sendLatestSessionConfig({
-      ...this.state.inputSessionConfig,
-      sessionId: this.props.sessionId,
-    })
+
+    const { sessionId, lessonId } = this.props;
+    sendLatestSessionConfig(
+      lessonId,
+      {
+        ...this.state.inputSessionConfig,
+        sessionId: this.props.sessionId,
+      })
   }
 
   renderSessionConfigPanel(sessionData: ISessionConfig) {

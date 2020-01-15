@@ -3,13 +3,21 @@ import React, { Component } from 'react'
 import SessionInstanceData from "./Components/SessionInstanceData";
 import SessionIdInput from "./Components/SessionIdInput";
 import SessionConfig from "./Components/SessionConfig";
+import { RouteComponentProps, RouteProps, withRouter } from 'react-router-dom';
 
-type S = {
+interface S {
   newSessionIdInput: string,
   sessionInstances: string[],
 }
 
-class Page extends Component<{}, S> {
+interface P extends RouteComponentProps<R> {
+}
+
+interface R {
+  lessonId?: string,
+}
+
+class Page extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -39,13 +47,15 @@ class Page extends Component<{}, S> {
 
   render() {
     const { newSessionIdInput, sessionInstances } = this.state
+    const { match: { params: { lessonId } } } = this.props;
+    if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
 
     return (
       <div className="page">
         {
           sessionInstances.map((sessionId) => <>
-            <SessionInstanceData sessionId={sessionId} />
-            <SessionConfig sessionId={sessionId} />
+            <SessionInstanceData lessonId={lessonId} sessionId={sessionId} />
+            <SessionConfig lessonId={lessonId} sessionId={sessionId} />
           </>)
         }
         <SessionIdInput
@@ -58,4 +68,4 @@ class Page extends Component<{}, S> {
   }
 }
 
-export default Page
+export default withRouter(Page);

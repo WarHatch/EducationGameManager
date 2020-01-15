@@ -8,19 +8,48 @@ import {
 import { render } from 'react-dom'
 
 import SessionData from "./pages/SessionData";
-import CreateLesson from "./pages/CreateLesson";
+import ChooseLesson from "./pages/CreateLesson";
+
+export type IGlobalState = {
+}
+
+class App extends React.Component<{}, IGlobalState> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+    };
+
+    // bind
+    this.changeGlobalState = this.changeGlobalState.bind(this);
+  }
+
+  changeGlobalState(newState: Partial<IGlobalState>) {
+    this.setState((prevState) => ({
+      ...prevState,
+      ...newState,
+    }))
+    console.log(this.state);
+  }
+
+  render() {
+    return (
+      <Router>
+        <Switch>
+          <Route path="/lesson/:lessonId">
+            <SessionData />
+          </Route>
+          <Route exact path="/">
+            <ChooseLesson />
+          </Route>
+          <Route>{'Incorrect URL'}</Route>
+        </Switch>
+      </Router>
+    );
+  }
+}
 
 render(
-  <Router>
-    <Switch>
-      <Route path="/lesson/:id">
-        <SessionData />
-      </Route>
-      <Route exact path="/">
-        <CreateLesson />
-      </Route>
-      <Route>{'Incorrect URL'}</Route>
-    </Switch>
-  </Router>,
+  <App />,
   document.getElementById('app')
 );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import LessonCreate from "./Components/LessonCreate";
+import LessonSpectate from './Components/LessonSpectate';
 
 type S = {
   gameTypeInput,
@@ -37,6 +38,7 @@ class Page extends Component<{}, S> {
     return (
       <div className="page">
         <LessonCreate />
+        <LessonSpectate />
       </div>
     )
   }
