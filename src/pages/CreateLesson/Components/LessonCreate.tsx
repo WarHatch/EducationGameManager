@@ -43,7 +43,8 @@ class SessionForm extends Component<RouteComponentProps, S> {
         teacherId: "placeholder",
         gameType: {
           type
-        }
+        },
+        sessions: [],
       })
       this.props.history.push(`/lesson/${newLessonData.id}`);
     } catch (error) {

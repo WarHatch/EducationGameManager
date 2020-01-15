@@ -57,6 +57,7 @@ class SessionInstanceData extends Component<P, S> {
 
     return (
       <div className="sessionInstance">
+        {/* TODO: use a name */}
         <p className="data">{"Data of: " + this.props.sessionId}</p>
         {!error && sessionData === undefined &&
           <p>Loading...</p>

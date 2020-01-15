@@ -1,3 +1,8 @@
+interface IReturnedData {
+  createdAt: Date,
+  updatedAt: Date,
+}
+
 export interface IGameSessionData {
   fullData: {
     id: number,
@@ -18,7 +23,14 @@ export interface ISessionConfig {
   asteroidSecondsToCrash: number,
 }
 
-export interface ILessonCreateData {
+export interface ISession extends IReturnedData {
+  sessionId: string,
+  finishedAt: Date,
+  lessonId: string,
+  // TODO: sessionConfigs???
+}
+
+export interface ILesson extends IReturnedData {
   id: string,
   teacherId: string,
   gameType: {
@@ -26,8 +38,5 @@ export interface ILessonCreateData {
     // TODO: add more config
     [key: string]: any
   },
-}
-
-export interface ILesson extends ILessonCreateData {
-  gameTypeJSON: string;
+  sessions: ISession[]
 }

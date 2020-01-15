@@ -40,9 +40,6 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
       const newLessonData = await getLesson({
         id: lessonIdValue,
         teacherId: "placeholder",
-        gameType: {
-          type
-        }
       })
       this.props.history.push(`/lesson/${newLessonData.id}`);
     } catch (error) {
