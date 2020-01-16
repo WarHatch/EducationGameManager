@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Alert } from "react-bootstrap";
 
 type S = {
-  error: Error,
+  error: Error | null,
   lessonIdValue: string,
 }
 
@@ -62,7 +62,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
           {"New lesson Id:"}
         </label>
         <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
-        <input type="submit" value="add" />
+        <input type="submit" value="Create & Spectate" />
         {error &&
           <Alert variant="danger">{error.message}</Alert>
         }

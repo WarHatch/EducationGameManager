@@ -35,7 +35,7 @@ export const sendLatestSessionConfig = async (lessonId: string, sessionConfig: I
 }
 
 // Lesson
-interface ILessonResponse {
+type ILessonResponse = null | {
   id: string,
   teacherId: string,
   gameTypeJSON: string,
@@ -56,6 +56,7 @@ export const createLesson = async (lessonData: ILessonCreate): Promise<ILesson> 
     lessonData,
   );
   const { data } = res;
+  if (data === null) throw new Error("createLesson responded with null payload");
   // @ts-ignore
   if (data.error !== undefined) throw data;
 
@@ -80,6 +81,7 @@ export const getLesson = async (lessonData: ILessonQuery): Promise<ILesson> => {
     lessonData,
   );
   const { data } = res;
+  if (data === null) throw new Error("Unable to get lesson");
   // @ts-ignore
   if (data.error !== undefined) throw data;
 

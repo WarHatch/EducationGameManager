@@ -81,7 +81,7 @@ class Page extends Component<P, S> {
           )
         }
         {
-          !!lessonsSessionIds === false ?
+          lessonsSessionIds === undefined ?
             this.renderLoading() :
             lessonsSessionIds.map((sessionId) => {
               return (<>

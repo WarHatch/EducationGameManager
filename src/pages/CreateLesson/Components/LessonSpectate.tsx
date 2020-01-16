@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Alert } from "react-bootstrap";
 
 type S = {
-  error: Error,
+  error: Error | null,
   lessonIdValue: string,
 }
 
@@ -35,7 +35,6 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
     event.preventDefault();
 
     const { lessonIdValue } = this.state;
-    const type = "asteroid";
     try {
       const newLessonData = await getLesson({
         id: lessonIdValue,
@@ -57,7 +56,7 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
           {"Spectate lesson id:"}
         </label>
         <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
-        <input type="submit" value="add" />
+        <input type="submit" value="Spectate" />
         {error &&
           <Alert variant="danger">{error.message}</Alert>
         }
