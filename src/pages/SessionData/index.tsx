@@ -31,7 +31,7 @@ class Page extends Component<P, S> {
     };
   }
 
-  async componentDidMount() {
+  async updateLessonData() {
     const { match: { params: { lessonId } } } = this.props;
     if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
     try {
@@ -42,11 +42,23 @@ class Page extends Component<P, S> {
     }
   }
 
+  componentDidMount() {
+    this.updateLessonData();
+  }
+
   renderLoading() {
     return (
       <div className="spinner-grow" role="status">
         <span className="sr-only">Loading sessions data...</span>
       </div>
+    )
+  }
+
+  renderRefreshSessionsButton() {
+    return (
+      <button type="button" className="btn btn-primary btn-lg" onClick={(e) => this.updateLessonData()}>
+        Refresh lesson's session list
+      </button>
     )
   }
 
@@ -60,11 +72,12 @@ class Page extends Component<P, S> {
 
     return (
       <div className="page">
+        {this.renderRefreshSessionsButton()}
         {
           error && (
-          <div className="alert alert-danger" role="alert">
-            {error.message}
-          </div>
+            <div className="alert alert-danger" role="alert">
+              {error.message}
+            </div>
           )
         }
         {
