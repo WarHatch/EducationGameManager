@@ -37,6 +37,7 @@ class Page extends Component<{}, S> {
 
     return (
       <div className="page">
+        <h1>Education-Game Manager</h1>
         <LessonCreate />
         <LessonSpectate />
       </div>

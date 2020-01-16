@@ -11,8 +11,8 @@ type P = {
 }
 
 type S = {
-  error: Error,
-  sessionConfig: ISessionConfig,
+  error: Error|null,
+  sessionConfig?: ISessionConfig,
   inputSessionConfig: {
     asteroidSpawnPerMinute: number,
     asteroidSecondsToCrash: number,

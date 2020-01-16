@@ -11,8 +11,8 @@ type P = {
 }
 
 type S = {
-  error: Error,
-  sessionData: IGameSessionData,
+  error: Error|null,
+  sessionData?: IGameSessionData,
 }
 
 class SessionInstanceData extends Component<P, S> {
