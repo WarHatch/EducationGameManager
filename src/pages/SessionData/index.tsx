@@ -46,6 +46,10 @@ class Page extends Component<P, S> {
     this.updateLessonData();
   }
 
+  componentWillUnmount() {
+    window.stop();
+  }
+
   renderLoading() {
     return (
       <div className="spinner-grow" role="status">
