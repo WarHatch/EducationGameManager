@@ -11,7 +11,7 @@ type P = {
 }
 
 type S = {
-  error: Error|null,
+  error: Error | null,
   sessionConfig?: ISessionConfig,
   inputSessionConfig: {
     asteroidSpawnPerMinute: number,
@@ -83,6 +83,8 @@ class SessionConfig extends Component<P, S> {
   }
 
   renderSessionConfigPanel(sessionData: ISessionConfig) {
+    const { inputSessionConfig } =this.state;
+
     return (
       <div className="configPanel">
         <p>Config</p>
@@ -91,18 +93,24 @@ class SessionConfig extends Component<P, S> {
           <li>{"Asteroid crashes in " + sessionData.asteroidSecondsToCrash + "seconds"}</li>
         </ul>
         <form onSubmit={(e) => this.onSend(e)}>
-          <label>{"Asteroid spawn per minute:"}</label>
+          <label>{"Asteroid spawn per minute: " + inputSessionConfig.asteroidSpawnPerMinute}</label>
           <input
+            min={5}
+            max={60}
             name="asteroidSpawnPerMinute"
-            type="number"
-            value={this.state.inputSessionConfig.asteroidSpawnPerMinute}
+            type="range"
+            className="form-control-range"
+            value={inputSessionConfig.asteroidSpawnPerMinute}
             onChange={(e) => this.handleInputChange(e)}
           />
-          <label>{"Asteroid crashes in x seconds:"}</label>
+          <label>{"Asteroid crashes in x seconds: " + inputSessionConfig.asteroidSecondsToCrash}</label>
           <input
+            min={3}
+            max={40}
             name="asteroidSecondsToCrash"
-            type="number"
-            value={this.state.inputSessionConfig.asteroidSecondsToCrash}
+            type="range"
+            className="form-control-range"
+            value={inputSessionConfig.asteroidSecondsToCrash}
             onChange={(e) => this.handleInputChange(e)}
           />
           <input type="submit" value="Set" />

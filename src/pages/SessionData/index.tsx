@@ -91,6 +91,7 @@ class Page extends Component<P, S> {
               return (<>
                 <SessionInstanceData lessonId={lessonId} sessionId={sessionId} />
                 <SessionConfig lessonId={lessonId} sessionId={sessionId} />
+                <hr />
               </>)
             })
         }
