@@ -4,14 +4,7 @@ interface IReturnedData {
 }
 
 export interface IGameSessionData {
-  fullData: {
-    id: number,
-    sessionId: string,
-    reactionTime: number,
-    correct: boolean,
-    question: string,
-    [key: string]: any
-  };
+  fullData: ISession;
   averageReactionTime: number,
   correctPercentage: number,
   incorrectPercentage: number,
@@ -27,7 +20,9 @@ export interface ISession extends IReturnedData {
   sessionId: string,
   finishedAt: Date,
   lessonId: string,
-  // TODO: sessionConfigs???
+  playerName: string,
+
+  sessionConfigs: ISessionConfig[],
 }
 
 export interface ILesson extends IReturnedData {

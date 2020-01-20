@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import SessionInstanceData from "./Components/SessionInstanceData";
-import SessionIdInput from "./Components/SessionIdInput";
 import SessionConfig from "./Components/SessionConfig";
 import { RouteComponentProps, RouteProps, withRouter } from 'react-router-dom';
 import { getLesson } from '../../dataHandler';
@@ -25,7 +24,6 @@ class Page extends Component<P, S> {
     super(props);
 
     this.state = {
-      // newSessionIdInput: undefined,
       lessonData: null,
       error: null,
     };
@@ -60,9 +58,11 @@ class Page extends Component<P, S> {
 
   renderRefreshSessionsButton() {
     return (
-      <button type="button" className="btn btn-primary btn-lg" onClick={(e) => this.updateLessonData()}>
-        Refresh lesson's session list
-      </button>
+      <div className="p-4">
+        <button type="button" className="btn btn-primary btn-lg" onClick={(e) => this.updateLessonData()}>
+          Refresh lesson's session list
+        </button>
+      </div>
     )
   }
 
@@ -70,12 +70,13 @@ class Page extends Component<P, S> {
     const { match: { params: { lessonId } } } = this.props;
     if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
     const { lessonData, error } = this.state;
-    const lessonsSessionIds = lessonData?.sessions.map((session) => {
-      return session.sessionId;
-    });
+    const relevantLessonData = lessonData?.sessions.map(({sessionId, playerName}) => ({
+      sessionId,
+      playerName,
+    }));
 
     return (
-      <div className="page">
+      <div className="page container">
         {this.renderRefreshSessionsButton()}
         {
           error && (
@@ -85,21 +86,18 @@ class Page extends Component<P, S> {
           )
         }
         {
-          lessonsSessionIds === undefined ?
+          relevantLessonData === undefined ?
             this.renderLoading() :
-            lessonsSessionIds.map((sessionId) => {
+            relevantLessonData.map(({sessionId, playerName}) => {
               return (<>
-                <SessionInstanceData lessonId={lessonId} sessionId={sessionId} />
+                <div className="pb-3">
+                  <SessionInstanceData lessonId={lessonId} sessionId={sessionId} playerName={playerName} />
+                </div>
                 <SessionConfig lessonId={lessonId} sessionId={sessionId} />
                 <hr />
               </>)
             })
         }
-        {/* <SessionIdInput
-          newSessionIdValue={newSessionIdInput}
-          addNewSessionInstanceData={(newSessionIdInput) => this.addNewSessionInstanceData(newSessionIdInput)}
-          changeNewSessionIdInput={(event) => this.changeNewSessionIdInput(event)}
-        /> */}
       </div>
     )
   }

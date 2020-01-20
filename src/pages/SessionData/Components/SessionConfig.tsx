@@ -91,7 +91,7 @@ class SessionConfig extends Component<P, S> {
         <p>Config</p>
         <ul>
           <li>{"Asteroid spawn per minute:" + sessionData.asteroidSpawnPerMinute}</li>
-          <li>{"Asteroid crashes in " + sessionData.asteroidSecondsToCrash + "seconds"}</li>
+          <li>{"Asteroid crashes in: " + sessionData.asteroidSecondsToCrash + " seconds"}</li>
         </ul>
         <form onSubmit={(e) => this.onSend(e)}>
           <label>{"Asteroid spawn per minute: " + inputSessionConfig.asteroidSpawnPerMinute}</label>

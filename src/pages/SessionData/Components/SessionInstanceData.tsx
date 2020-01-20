@@ -8,6 +8,7 @@ import { IGameSessionData } from "../../../dataHandler/data";
 type P = {
   lessonId: string
   sessionId: string
+  playerName: string
 }
 
 type S = {
@@ -39,14 +40,15 @@ class SessionInstanceData extends Component<P, S> {
     this.updateSessionData();
     setInterval(() => {
       this.updateSessionData();
-    }, 1000);
+    }, 1500); // TODO: this can be reduced/replaced?
   }
 
   renderSessionContainer(sessionData: IGameSessionData) {
     return (
       <>
-        <li>{`avg. reaction time: ${sessionData.averageReactionTime}`}</li>
-        <li>{`correct answers%: ${sessionData.correctPercentage}`}</li>
+        <li>{`game session status = ${sessionData.fullData.finishedAt ? "FINISHED" : "ONGOING" }`}</li>
+        <li>{`avg. reaction time: ${sessionData.averageReactionTime/1000} seconds`}</li>
+        <li>{`correct answers: ${sessionData.correctPercentage}%`}</li>
         <li>{`full data: ${JSON.stringify(sessionData.fullData)}`}</li>
       </>
     )
@@ -57,8 +59,7 @@ class SessionInstanceData extends Component<P, S> {
 
     return (
       <div className="sessionInstance">
-        {/* TODO: use a name */}
-        <p className="data">{"Data of: " + this.props.sessionId}</p>
+        <p className="data">{"Data of: " + this.props.playerName}</p>
         {!error && sessionData === undefined &&
           <p>Loading...</p>
         }
