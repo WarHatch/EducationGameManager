@@ -107,7 +107,7 @@ class SessionConfig extends Component<P, S> {
           <label>{"Asteroid crashes in x seconds: " + inputSessionConfig.asteroidSecondsToCrash}</label>
           <input
             min={2}
-            max={14}
+            max={18}
             name="asteroidSecondsToCrash"
             type="range"
             className="form-control-range"
