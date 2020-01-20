@@ -26,9 +26,10 @@ class SessionConfig extends Component<P, S> {
     this.state = {
       error: null,
       sessionConfig: undefined,
+      // TODO: atm hand-synced with GEA. Should be set on receiving config
       inputSessionConfig: {
-        asteroidSpawnPerMinute: 15,
-        asteroidSecondsToCrash: 30,
+        asteroidSpawnPerMinute: 20,
+        asteroidSecondsToCrash: 9,
       },
     };
   }
@@ -105,8 +106,8 @@ class SessionConfig extends Component<P, S> {
           />
           <label>{"Asteroid crashes in x seconds: " + inputSessionConfig.asteroidSecondsToCrash}</label>
           <input
-            min={3}
-            max={40}
+            min={2}
+            max={14}
             name="asteroidSecondsToCrash"
             type="range"
             className="form-control-range"
