@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from "axios";
+import config from "../config";
 
 // interfaces
 import { IGameSessionData, ISessionConfig, ILesson, ISession } from "./data";
 
 export const getSessionData = async (lessonId: string, sessionId: string): Promise<IGameSessionData> => {
   const res: AxiosResponse<IGameSessionData> = await axios.post(
-    `http://localhost:8090/lesson/${lessonId}/session/data`,
+    `${config.gameElementApiURL}/lesson/${lessonId}/session/data`,
     {
       sessionId
     }
@@ -16,7 +17,7 @@ export const getSessionData = async (lessonId: string, sessionId: string): Promi
 
 export const getLatestSessionConfig = async (lessonId: string, sessionId: string): Promise<ISessionConfig> => {
   const res = await axios.post(
-    `http://localhost:8090/lesson/${lessonId}/session/config`,
+    `${config.gameElementApiURL}/lesson/${lessonId}/session/config`,
     {
       sessionId
     }
@@ -27,7 +28,7 @@ export const getLatestSessionConfig = async (lessonId: string, sessionId: string
 
 export const sendLatestSessionConfig = async (lessonId: string, sessionConfig: ISessionConfig): Promise<ISessionConfig> => {
   const res = await axios.post(
-    `http://localhost:8090/lesson/${lessonId}/session/config/new`,
+    `${config.gameElementApiURL}/lesson/${lessonId}/session/config/new`,
     sessionConfig,
   );
   const { data } = res;
@@ -52,7 +53,7 @@ interface ILessonCreate {
 }
 export const createLesson = async (lessonData: ILessonCreate): Promise<ILesson> => {
   const res: AxiosResponse<ILessonResponse> = await axios.post(
-    `http://localhost:8090/lesson/new`,
+    `${config.gameElementApiURL}/lesson/new`,
     lessonData,
   );
   const { data } = res;
@@ -77,7 +78,7 @@ interface ILessonQuery {
 }
 export const getLesson = async (lessonData: ILessonQuery): Promise<ILesson> => {
   const res: AxiosResponse<ILessonResponse> = await axios.post(
-    `http://localhost:8090/lesson/`,
+    `${config.gameElementApiURL}/lesson/`,
     lessonData,
   );
   const { data } = res;
