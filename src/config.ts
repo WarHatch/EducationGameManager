@@ -3,7 +3,7 @@ const devConfig = {
 }
 
 const productionConfig = {
-  gameElementApiURL: "http://localhost:8090",
+  gameElementApiURL: "https://education-game-tool-2020.herokuapp.com",
 }
 
 const configByEnv = () => {
