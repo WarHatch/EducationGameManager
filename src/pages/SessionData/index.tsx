@@ -70,7 +70,7 @@ class Page extends Component<P, S> {
     const { match: { params: { lessonId } } } = this.props;
     if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
     const { lessonData, error } = this.state;
-    const relevantLessonData = lessonData?.sessions.map(({sessionId, playerName}) => ({
+    const relevantLessonData = lessonData?.sessions.map(({ sessionId, playerName }) => ({
       sessionId,
       playerName,
     }));
@@ -88,14 +88,14 @@ class Page extends Component<P, S> {
         {
           relevantLessonData === undefined ?
             this.renderLoading() :
-            relevantLessonData.map(({sessionId, playerName}) => {
-              return (<>
+            relevantLessonData.map(({ sessionId, playerName }) => {
+              return (<React.Fragment key={sessionId}>
                 <div className="pb-3">
                   <SessionInstanceData lessonId={lessonId} sessionId={sessionId} playerName={playerName} />
                 </div>
                 <SessionConfig lessonId={lessonId} sessionId={sessionId} />
                 <hr />
-              </>)
+              </React.Fragment>)
             })
         }
       </div>
