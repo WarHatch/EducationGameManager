@@ -34,6 +34,8 @@ class SessionConfig extends Component<P, S> {
     };
   }
 
+  getConfigDataInterval: NodeJS.Timeout | null = null;
+
   getConfigData() {
     const { sessionId, lessonId } = this.props;
     getLatestSessionConfig(lessonId, sessionId).then((newConfig) => {
@@ -51,9 +53,16 @@ class SessionConfig extends Component<P, S> {
 
   componentDidMount() {
     this.getConfigData();
-    setInterval(() => {
+    this.getConfigDataInterval = setInterval(() => {
       this.getConfigData();
     }, 1000);
+  }
+
+  componentWillUnmount() {
+    if (this.getConfigDataInterval !== null) {
+      clearInterval(this.getConfigDataInterval)
+      this.getConfigDataInterval = null;
+    }
   }
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -84,7 +93,7 @@ class SessionConfig extends Component<P, S> {
   }
 
   renderSessionConfigPanel(sessionData: ISessionConfig) {
-    const { inputSessionConfig } =this.state;
+    const { inputSessionConfig } = this.state;
 
     return (
       <div className="configPanel">

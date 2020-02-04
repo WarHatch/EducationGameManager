@@ -12,7 +12,7 @@ type P = {
 }
 
 type S = {
-  error: Error|null,
+  error: Error | null,
   sessionData?: IGameSessionData,
 }
 
@@ -26,6 +26,8 @@ class SessionInstanceData extends Component<P, S> {
     };
   }
 
+  updateSessionDataInterval: NodeJS.Timeout | null = null;
+
   updateSessionData() {
     const { sessionId, lessonId } = this.props;
 
@@ -38,16 +40,23 @@ class SessionInstanceData extends Component<P, S> {
 
   componentDidMount() {
     this.updateSessionData();
-    setInterval(() => {
+    this.updateSessionDataInterval = setInterval(() => {
       this.updateSessionData();
     }, 1500); // TODO: this can be reduced/replaced?
+  }
+
+  componentWillUnmount() {
+    if (this.updateSessionDataInterval !== null) {
+      clearInterval(this.updateSessionDataInterval)
+      this.updateSessionDataInterval = null;
+    }
   }
 
   renderSessionContainer(sessionData: IGameSessionData) {
     return (
       <>
-        <li>{`game session status = ${sessionData.fullData.finishedAt ? "FINISHED" : "ONGOING" }`}</li>
-        <li>{`avg. reaction time: ${sessionData.averageReactionTime/1000} seconds`}</li>
+        <li>{`game session status = ${sessionData.fullData.finishedAt ? "FINISHED" : "ONGOING"}`}</li>
+        <li>{`avg. reaction time: ${sessionData.averageReactionTime / 1000} seconds`}</li>
         <li>{`correct answers: ${sessionData.correctPercentage}%`}</li>
         <li>{`full data: ${JSON.stringify(sessionData.fullData)}`}</li>
       </>
