@@ -3,7 +3,15 @@ interface IReturnedData {
   updatedAt: Date,
 }
 
-export interface IGameSessionData {
+export interface IClickData extends IReturnedData {
+  id: number,
+  reactionTime: number,
+  correct: boolean,
+  question: string,
+  sessionId: string,
+} 
+
+export interface IGameSessionData extends IReturnedData {
   fullData: ISession;
   averageReactionTime: number,
   correctPercentage: number,
@@ -21,8 +29,8 @@ export interface ISession extends IReturnedData {
   finishedAt: Date,
   lessonId: string,
   playerName: string,
-
-  sessionConfigs: ISessionConfig[],
+  clickData: IClickData[],
+  // sessionConfigs: ISessionConfig[],
 }
 
 interface game<T> { type: T }

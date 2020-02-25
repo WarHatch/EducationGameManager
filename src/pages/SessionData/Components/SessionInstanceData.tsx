@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import moment from 'moment';
 
 import { getSessionData } from "../../../dataHandler/index";
 
 // Types
 import { IGameSessionData } from "../../../dataHandler/data";
+import AnswerCirlce from './AnswerCircle';
 
 type P = {
   lessonId: string
@@ -53,12 +55,20 @@ class SessionInstanceData extends Component<P, S> {
   }
 
   renderSessionContainer(sessionData: IGameSessionData) {
+    const { fullData, averageReactionTime, correctPercentage } = sessionData;
+    const { clickData, createdAt, finishedAt } = fullData;
+
     return (
       <>
-        <li>{`game session status = ${sessionData.fullData.finishedAt ? "FINISHED" : "ONGOING"}`}</li>
-        <li>{`avg. reaction time: ${sessionData.averageReactionTime / 1000} seconds`}</li>
-        <li>{`correct answers: ${sessionData.correctPercentage}%`}</li>
-        <li>{`full data: ${JSON.stringify(sessionData.fullData)}`}</li>
+        <li>{`game started at = ${moment(createdAt).format('l')} ${moment(createdAt).format('LTS')}`}</li>
+        <li>{`game session status = ${finishedAt ?
+          `finished at ${moment(finishedAt).format('l')} ${moment(finishedAt).format('LTS')}` :
+          "IN PROGRESS"}`}</li>
+        <li>{`avg. reaction time: ${(averageReactionTime / 1000).toFixed(2)} seconds`}</li>
+        <li>{`correct answers: ${correctPercentage.toFixed(2)}%`}</li>
+        <li>{`answers:`}
+          {clickData.map((c) => <AnswerCirlce correct={c.correct} />)}
+        </li>
       </>
     )
   }
