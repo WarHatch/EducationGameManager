@@ -5,6 +5,11 @@ import { getLatestSessionConfig, sendLatestSessionConfig } from "../../../dataHa
 // Types
 import { ISessionConfig } from "../../../dataHandler/data";
 
+interface IInputSessionConfig {
+  asteroidSpawnPerMinute: number,
+  asteroidSecondsToCrash: number,
+}
+
 type P = {
   lessonId: string,
   sessionId: string
@@ -13,10 +18,7 @@ type P = {
 type S = {
   error: Error | null,
   sessionConfig?: ISessionConfig,
-  inputSessionConfig: {
-    asteroidSpawnPerMinute: number,
-    asteroidSecondsToCrash: number,
-  },
+  inputSessionConfig?: IInputSessionConfig,
 }
 
 class SessionConfig extends Component<P, S> {
@@ -26,11 +28,7 @@ class SessionConfig extends Component<P, S> {
     this.state = {
       error: null,
       sessionConfig: undefined,
-      // TODO: atm hand-synced with GEA. Should be set on receiving config
-      inputSessionConfig: {
-        asteroidSpawnPerMinute: 20,
-        asteroidSecondsToCrash: 9,
-      },
+      inputSessionConfig: undefined,
     };
   }
 
@@ -39,12 +37,8 @@ class SessionConfig extends Component<P, S> {
   getConfigData() {
     const { sessionId, lessonId } = this.props;
     getLatestSessionConfig(lessonId, sessionId).then((newConfig) => {
-      this.setState((prevState) => {
-        return {
-          sessionConfig: {
-            ...newConfig,
-          }
-        };
+      this.setState({
+        sessionConfig: newConfig
       })
     }).catch((error) => {
       this.setState({ error });
@@ -52,7 +46,18 @@ class SessionConfig extends Component<P, S> {
   }
 
   componentDidMount() {
-    this.getConfigData();
+    // set initial config data
+    const { sessionId, lessonId } = this.props;
+    getLatestSessionConfig(lessonId, sessionId).then((newConfig) => {
+      const { asteroidSecondsToCrash, asteroidSpawnPerMinute } = newConfig;
+      this.setState({
+        sessionConfig: newConfig,
+        inputSessionConfig: { asteroidSpawnPerMinute, asteroidSecondsToCrash }
+      })
+    }).catch((error) => {
+      this.setState({ error });
+    })
+    // Repeat config data sync
     this.getConfigDataInterval = setInterval(() => {
       this.getConfigData();
     }, 1000);
@@ -71,6 +76,10 @@ class SessionConfig extends Component<P, S> {
     const { name } = target;
 
     this.setState((prevState) => {
+      if (prevState.inputSessionConfig === undefined) throw new Error(
+        `input '${name}' value changed to '${value}' before inputSessionConfig was defined`
+      );
+
       return {
         inputSessionConfig: {
           ...prevState.inputSessionConfig,
@@ -80,21 +89,27 @@ class SessionConfig extends Component<P, S> {
     })
   }
 
-  onSend(event: React.FormEvent<HTMLFormElement>) {
+  onSend(event: React.FormEvent<HTMLFormElement>, inputSessionConfig: IInputSessionConfig) {
     event.preventDefault();
 
     const { sessionId, lessonId } = this.props;
     sendLatestSessionConfig(
       lessonId,
       {
-        ...this.state.inputSessionConfig,
-        sessionId: this.props.sessionId,
+        ...inputSessionConfig,
+        sessionId,
       })
   }
 
-  renderSessionConfigPanel(sessionData: ISessionConfig) {
-    const { inputSessionConfig } = this.state;
+  renderSessionLoading() {
+    return (
+      <div className="spinner-grow" role="status">
+        <span className="sr-only">Loading session's config data...</span>
+      </div>
+    )
+  }
 
+  renderSessionConfigPanel(sessionData: ISessionConfig, inputSessionConfig: IInputSessionConfig) {
     return (
       <div className="configPanel">
         <p>Config</p>
@@ -102,7 +117,7 @@ class SessionConfig extends Component<P, S> {
           <li>{"Asteroid spawn per minute:" + sessionData.asteroidSpawnPerMinute}</li>
           <li>{"Asteroid crashes in: " + sessionData.asteroidSecondsToCrash + " seconds"}</li>
         </ul>
-        <form onSubmit={(e) => this.onSend(e)}>
+        <form onSubmit={(e) => this.onSend(e, inputSessionConfig)}>
           <label>{"Asteroid spawn per minute: " + inputSessionConfig.asteroidSpawnPerMinute}</label>
           <input
             min={5}
@@ -130,19 +145,19 @@ class SessionConfig extends Component<P, S> {
   }
 
   render() {
-    const { error, sessionConfig } = this.state
+    const { error, sessionConfig, inputSessionConfig } = this.state
 
     return (
       <div className="sessionConfig">
-        {!error && sessionConfig === undefined &&
-          <p>Loading...</p>
-        }
         {error &&
           <div className="error">{error.toString()}</div>
         }
+        {!error && (sessionConfig === undefined || inputSessionConfig === undefined) &&
+          this.renderSessionLoading()
+        }
         {
-          sessionConfig &&
-          this.renderSessionConfigPanel(sessionConfig)
+          sessionConfig && inputSessionConfig &&
+          this.renderSessionConfigPanel(sessionConfig, inputSessionConfig)
         }
       </div>
     )

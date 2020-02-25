@@ -25,13 +25,17 @@ export interface ISession extends IReturnedData {
   sessionConfigs: ISessionConfig[],
 }
 
+interface game<T> { type: T }
+
+interface asteroidGame extends game<"asteroid"> {}
+
+interface assemblyGame extends game<"assembly"> {
+
+}
+
 export interface ILesson extends IReturnedData {
   id: string,
   teacherId: string,
-  gameType: {
-    type: "asteroid",
-    // TODO: add more config
-    [key: string]: any
-  },
+  gameType: asteroidGame | assemblyGame
   sessions: ISession[]
 }

@@ -42,7 +42,7 @@ class SessionInstanceData extends Component<P, S> {
     this.updateSessionData();
     this.updateSessionDataInterval = setInterval(() => {
       this.updateSessionData();
-    }, 1500); // TODO: this can be reduced/replaced?
+    }, 1500); // TODO: could open a connection to server and wait to receive new data
   }
 
   componentWillUnmount() {
