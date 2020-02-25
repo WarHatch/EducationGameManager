@@ -40,6 +40,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
     try {
       const newLessonData = await createLesson({
         id: lessonIdValue,
+        // FIXME: input for teacher
         teacherId: "placeholder",
         gameType: {
           type
@@ -48,8 +49,9 @@ class SessionForm extends Component<RouteComponentProps, S> {
       })
       this.props.history.push(`/lesson/${newLessonData.id}`);
     } catch (error) {
-      this.setState({ error });
-      console.error(error)
+      // TODO: monkeypatched payload message extraction
+      this.setState({ error: error.response.data });
+      console.error({...error})
     }
   }
 
@@ -64,7 +66,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
         <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Create & Spectate" />
         {error &&
-          <Alert variant="danger">{error.message}</Alert>
+          <Alert variant="danger">{error}</Alert>
         }
       </form>
     );
