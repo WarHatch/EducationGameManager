@@ -3,12 +3,16 @@ import { getLesson } from '../../../dataHandler';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Alert } from "react-bootstrap";
 
-type S = {
+interface S {
   error: Error | null,
   lessonIdValue: string,
 }
 
-class LessonSpectate extends Component<RouteComponentProps, S> {
+interface P extends RouteComponentProps {
+  teacherKey: string
+}
+
+class LessonSpectate extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -35,10 +39,16 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
     event.preventDefault();
 
     const { lessonIdValue } = this.state;
+    const { teacherKey } = this.props;
+
+    if (!teacherKey) {
+      this.setState({ error: new Error("teacher key is missing") })
+      return;
+    }
     try {
       const newLessonData = await getLesson({
         id: lessonIdValue,
-        teacherId: "placeholder",
+        teacherId: teacherKey,
       })
       this.props.history.push(`/lesson/${newLessonData.id}`);
     } catch (error) {
@@ -55,7 +65,7 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
         <label>
           {"Spectate lesson id:"}
         </label>
-        <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
+        <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Spectate" />
         {error &&
           <Alert variant="danger">{error.message}</Alert>

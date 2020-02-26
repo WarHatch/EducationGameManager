@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
 import { createLesson } from '../../../dataHandler';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps, Route } from 'react-router-dom';
 import { Alert } from "react-bootstrap";
 
-type S = {
-  error: Error | null,
+interface S {
+  error: Error | string | null,
   lessonIdValue: string,
 }
 
-class SessionForm extends Component<RouteComponentProps, S> {
+interface P extends RouteComponentProps {
+  teacherKey: string
+}
+
+class LessonCreateForm extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -35,13 +39,18 @@ class SessionForm extends Component<RouteComponentProps, S> {
     event.preventDefault();
 
     const { lessonIdValue } = this.state;
-    const type = "asteroid";
+    const { teacherKey } = this.props;
+    const type = "asteroid"; // TODO: pass game type through props
+
+    if (!teacherKey) {
+      this.setState({ error: "teacher key is missing" })
+      return;
+    }
 
     try {
       const newLessonData = await createLesson({
         id: lessonIdValue,
-        // FIXME: input for teacher
-        teacherId: "placeholder",
+        teacherId: teacherKey,
         gameType: {
           type
         },
@@ -49,7 +58,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
       })
       this.props.history.push(`/lesson/${newLessonData.id}`);
     } catch (error) {
-      // TODO: monkeypatched payload message extraction
+      // TODO: monkeypatched payload message extraction - should be handled in data handler
       this.setState({ error: error.response.data });
       console.error({...error})
     }
@@ -63,7 +72,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
         <label>
           {"New lesson Id:"}
         </label>
-        <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
+        <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Create & Spectate" />
         {error &&
           <Alert variant="danger">{error}</Alert>
@@ -73,4 +82,4 @@ class SessionForm extends Component<RouteComponentProps, S> {
   }
 }
 
-export default withRouter(SessionForm);
+export default withRouter(LessonCreateForm);

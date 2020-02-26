@@ -5,6 +5,7 @@ import LessonSpectate from './Components/LessonSpectate';
 
 type S = {
   gameTypeInput,
+  teacherKeyInput: string,
 }
 
 class Page extends Component<{}, S> {
@@ -12,6 +13,7 @@ class Page extends Component<{}, S> {
     super(props);
 
     this.state = {
+      teacherKeyInput: "",
       gameTypeInput: undefined,
     };
   }
@@ -33,13 +35,26 @@ class Page extends Component<{}, S> {
   }
 
   render() {
-    const { gameTypeInput } = this.state
+    const { gameTypeInput, teacherKeyInput } = this.state
 
     return (
-      <div className="page">
-        <h1>Education-Game Manager</h1>
-        <LessonCreate />
-        <LessonSpectate />
+      <div className="container">
+        <h1 className="mb-4 text-muted">Education-Game Manager</h1>
+
+        <div className="row m-0 mb-3">
+          <h2 className="mr-2">Step 1: Your teacher key</h2>
+          <input required name="teacherKeyInput" type="password" onChange={(event) => this.handleInputChange(event)}></input>
+        </div>
+
+        <h2>Step 2: Create or spectate lesson</h2>
+        <div className="row">
+          <div className="col-lg">
+            <LessonCreate teacherKey={teacherKeyInput} />
+          </div>
+          <div className="col-lg">
+            <LessonSpectate teacherKey={teacherKeyInput} />
+          </div>
+        </div>
       </div>
     )
   }
