@@ -43,7 +43,7 @@ class Page extends Component<{}, S> {
 
         <div className="row m-0 mb-3">
           <h2 className="mr-2">Step 1: Your teacher key</h2>
-          <input required name="teacherKeyInput" type="password" onChange={(event) => this.handleInputChange(event)}></input>
+          <input required name="teacherKeyInput" type="password" value={teacherKeyInput} onChange={(event) => this.handleInputChange(event)}></input>
         </div>
 
         <h2>Step 2: Create or spectate lesson</h2>

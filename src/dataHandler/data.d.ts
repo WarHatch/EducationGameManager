@@ -13,9 +13,9 @@ export interface IClickData extends IReturnedData {
 
 export interface IGameSessionData extends IReturnedData {
   fullData: ISession;
-  averageReactionTime: number,
-  correctPercentage: number,
-  incorrectPercentage: number,
+  averageReactionTime: number | null,
+  correctPercentage: number | null,
+  incorrectPercentage: number | null,
 }
 
 export interface ISessionConfig {

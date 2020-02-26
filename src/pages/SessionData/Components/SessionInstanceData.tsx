@@ -44,7 +44,7 @@ class SessionInstanceData extends Component<P, S> {
     this.updateSessionData();
     this.updateSessionDataInterval = setInterval(() => {
       this.updateSessionData();
-    }, 1500); // TODO: could open a connection to server and wait to receive new data
+    }, 1500); // FIXME: should fetch all sessions data from parent component
   }
 
   componentWillUnmount() {
@@ -58,16 +58,29 @@ class SessionInstanceData extends Component<P, S> {
     const { fullData, averageReactionTime, correctPercentage } = sessionData;
     const { clickData, createdAt, finishedAt } = fullData;
 
+    const noAnswersText = "no answers yet ⌛"
+    const inProgressText = "in progress 💭"
+
     return (
       <>
-        <li>{`game started at = ${moment(createdAt).format('l')} ${moment(createdAt).format('LTS')}`}</li>
-        <li>{`game session status = ${finishedAt ?
+        <li>{`game started at: ${moment(createdAt).format('l')} ${moment(createdAt).format('LTS')}`}</li>
+        <li>{`game status: ${finishedAt ?
           `finished at ${moment(finishedAt).format('l')} ${moment(finishedAt).format('LTS')}` :
-          "IN PROGRESS"}`}</li>
-        <li>{`avg. reaction time: ${(averageReactionTime / 1000).toFixed(2)} seconds`}</li>
-        <li>{`correct answers: ${correctPercentage.toFixed(2)}%`}</li>
+          inProgressText}`}</li>
+        <li>{'avg. reaction time: '}
+          {averageReactionTime ?
+            // @ts-ignore already checked for null
+            `${(averageReactionTime / 1000).toFixed(2)} seconds` :
+            noAnswersText
+          }</li>
+        <li>{'correct answers: '}
+          {correctPercentage ?
+            // @ts-ignore already checked for null
+            `${correctPercentage.toFixed(2)}%` :
+            noAnswersText
+          }</li>
         <li>{`answers:`}
-          {clickData.map((c) => <AnswerCirlce correct={c.correct} />)}
+          {clickData.map((c) => <AnswerCirlce key={c.id} correct={c.correct} />)}
         </li>
       </>
     )
