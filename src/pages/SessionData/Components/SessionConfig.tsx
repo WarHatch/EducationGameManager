@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
 import { getLatestSessionConfig, sendLatestSessionConfig } from "../../../dataHandler/index";
 
@@ -72,7 +72,7 @@ class SessionConfig extends Component<P, S> {
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
 
     this.setState((prevState) => {

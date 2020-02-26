@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { getLesson } from '../../../dataHandler';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import React, { Component } from "react"
+import { getLesson } from "../../../dataHandler";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 
 interface S {
@@ -24,7 +24,7 @@ class LessonSpectate extends Component<P, S> {
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
 
     this.setState((prevState) => {

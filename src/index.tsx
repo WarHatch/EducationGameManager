@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
-import { render } from 'react-dom'
+import { render } from "react-dom"
 
 import SessionData from "./pages/SessionData";
 import ChooseLesson from "./pages/CreateLesson";
@@ -42,7 +42,7 @@ class App extends React.Component<{}, IGlobalState> {
           <Route exact path="/">
             <ChooseLesson />
           </Route>
-          <Route>{'Incorrect URL'}</Route>
+          <Route>{"Incorrect URL"}</Route>
         </Switch>
       </Router>
     );
@@ -51,5 +51,5 @@ class App extends React.Component<{}, IGlobalState> {
 
 render(
   <App />,
-  document.getElementById('app')
+  document.getElementById("app")
 );

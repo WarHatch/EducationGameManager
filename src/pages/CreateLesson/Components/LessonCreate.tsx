@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { createLesson } from '../../../dataHandler';
-import { withRouter, RouteComponentProps, Route } from 'react-router-dom';
+import React, { Component } from "react"
+import { createLesson } from "../../../dataHandler";
+import { withRouter, RouteComponentProps, Route } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 
 interface S {
@@ -24,7 +24,7 @@ class LessonCreateForm extends Component<P, S> {
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
 
     this.setState((prevState) => {

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from "react"
 
 import SessionInstanceData from "./Components/SessionInstanceData";
 import SessionConfig from "./Components/SessionConfig";
-import { RouteComponentProps, RouteProps, withRouter } from 'react-router-dom';
-import { getLesson } from '../../dataHandler';
+import { RouteComponentProps, RouteProps, withRouter } from "react-router-dom";
+import { getLesson } from "../../dataHandler";
 
-import { ILesson } from '../../dataHandler/data';
+import { ILesson } from "../../dataHandler/data";
 
 interface S {
   lessonData: ILesson | null,

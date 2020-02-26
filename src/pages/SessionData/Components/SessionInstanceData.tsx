@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import moment from 'moment';
+import React, { Component } from "react"
+import moment from "moment";
 
 import { getSessionData } from "../../../dataHandler/index";
 
 // Types
 import { IGameSessionData } from "../../../dataHandler/data";
-import AnswerCirlce from './AnswerCircle';
+import AnswerCirlce from "./AnswerCircle";
 
 type P = {
   lessonId: string
@@ -63,17 +63,17 @@ class SessionInstanceData extends Component<P, S> {
 
     return (
       <>
-        <li>{`game started at: ${moment(createdAt).format('l')} ${moment(createdAt).format('LTS')}`}</li>
+        <li>{`game started at: ${moment(createdAt).format("l")} ${moment(createdAt).format("LTS")}`}</li>
         <li>{`game status: ${finishedAt ?
-          `finished at ${moment(finishedAt).format('l')} ${moment(finishedAt).format('LTS')}` :
+          `finished at ${moment(finishedAt).format("l")} ${moment(finishedAt).format("LTS")}` :
           inProgressText}`}</li>
-        <li>{'avg. reaction time: '}
+        <li>{"avg. reaction time: "}
           {averageReactionTime ?
             // @ts-ignore already checked for null
             `${(averageReactionTime / 1000).toFixed(2)} seconds` :
             noAnswersText
           }</li>
-        <li>{'correct answers: '}
+        <li>{"correct answers: "}
           {correctPercentage ?
             // @ts-ignore already checked for null
             `${correctPercentage.toFixed(2)}%` :

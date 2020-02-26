@@ -1,9 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import config from "../config";
 
+// TODO: create an AxiosResponse<> interface which supports having error property (res.data.error)
+
 // interfaces
 import { IGameSessionData, ISessionConfig, ILesson, ISession } from "./data";
 
+//#region Session
 export const getSessionData = async (lessonId: string, sessionId: string): Promise<IGameSessionData> => {
   const res: AxiosResponse<IGameSessionData> = await axios.post(
     `${config.gameElementApiURL}/lesson/${lessonId}/session/data`,
@@ -34,8 +37,9 @@ export const sendLatestSessionConfig = async (lessonId: string, sessionConfig: I
   const { data } = res;
   return data;
 }
+//#endregion
 
-// Lesson
+//#region Lesson
 type ILessonResponse = null | {
   id: string,
   teacherId: string,
@@ -95,3 +99,4 @@ export const getLesson = async (lessonData: ILessonQuery): Promise<ILesson> => {
 
   return formattedData;
 }
+//#endregion
