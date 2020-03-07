@@ -117,29 +117,41 @@ class SessionConfig extends Component<P, S> {
           <li>{"Asteroid spawn per minute:" + sessionData.asteroidSpawnPerMinute}</li>
           <li>{"Asteroid crashes in: " + sessionData.asteroidSecondsToCrash + " seconds"}</li>
         </ul>
-        {/* TODO: do not render if session has ended */}
-        <form onSubmit={(e) => this.onSend(e, inputSessionConfig)}>
-          <label>{"Asteroid spawn per minute: " + inputSessionConfig.asteroidSpawnPerMinute}</label>
-          <input
-            min={5}
-            max={60}
-            name="asteroidSpawnPerMinute"
-            type="range"
-            className="form-control-range"
-            value={inputSessionConfig.asteroidSpawnPerMinute}
-            onChange={(e) => this.handleInputChange(e)}
-          />
-          <label>{"Asteroid crashes in x seconds: " + inputSessionConfig.asteroidSecondsToCrash}</label>
-          <input
-            min={2}
-            max={18}
-            name="asteroidSecondsToCrash"
-            type="range"
-            className="form-control-range"
-            value={inputSessionConfig.asteroidSecondsToCrash}
-            onChange={(e) => this.handleInputChange(e)}
-          />
-          <input type="submit" value="Set" />
+        {/* FIXME: do not render if session has ended */}
+        <form className="container" onSubmit={(e) => this.onSend(e, inputSessionConfig)}>
+          <div className="row">
+            <div className="col-sm-9">
+              <div className="row">
+                <label>{"Asteroid spawn per minute: " + inputSessionConfig.asteroidSpawnPerMinute}</label>
+                <input
+                  min={5}
+                  max={60}
+                  name="asteroidSpawnPerMinute"
+                  type="range"
+                  className="form-control-range"
+                  value={inputSessionConfig.asteroidSpawnPerMinute}
+                  onChange={(e) => this.handleInputChange(e)}
+                />
+              </div>
+              <div className="row">
+                <label>{"Asteroid crashes in x seconds: " + inputSessionConfig.asteroidSecondsToCrash}</label>
+                <input
+                  min={2}
+                  max={18}
+                  name="asteroidSecondsToCrash"
+                  type="range"
+                  className="form-control-range"
+                  value={inputSessionConfig.asteroidSecondsToCrash}
+                  onChange={(e) => this.handleInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-3">
+              <input style={({ whiteSpace: "normal" })} className="btn btn-lg btn-block btn-primary h-100"
+                type="submit" value="Set new difficulty"
+              />
+            </div>
+          </div>
         </form>
       </div>
     )

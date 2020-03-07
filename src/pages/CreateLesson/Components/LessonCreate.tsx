@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { createLesson, getGameType } from "../../../dataHandler";
 import errorHandler from "../../../errorHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { Alert } from "react-bootstrap";
 import content from "../content";
 
 interface S {
@@ -84,7 +83,7 @@ class LessonCreateForm extends Component<P, S> {
         <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Create & Spectate" />
         {error &&
-          <Alert variant="danger">{error}</Alert>
+          <div className="alert alert-danger" role="alert">{error}</div>
         }
       </form>
     );

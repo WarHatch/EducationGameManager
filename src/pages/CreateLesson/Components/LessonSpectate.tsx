@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { getLesson } from "../../../dataHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { Alert } from "react-bootstrap";
 import content from "../content";
 
 interface S {
@@ -69,7 +68,7 @@ class LessonSpectate extends Component<P, S> {
         <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Spectate" />
         {error &&
-          <Alert variant="danger">{error.message}</Alert>
+          <div className="alert alert-danger" role="alert">{error.message}</div>
         }
       </form>
     );
