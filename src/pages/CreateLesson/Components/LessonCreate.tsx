@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { createLesson } from "../../../dataHandler";
-import { withRouter, RouteComponentProps, Route } from "react-router-dom";
+import { createLesson, getGameType } from "../../../dataHandler";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Alert } from "react-bootstrap";
+import content from "../content";
 
 interface S {
   error: Error | string | null,
@@ -9,7 +10,8 @@ interface S {
 }
 
 interface P extends RouteComponentProps {
-  teacherKey: string
+  teacherKey: string,
+  contentSlug: string,
 }
 
 class LessonCreateForm extends Component<P, S> {
@@ -39,28 +41,45 @@ class LessonCreateForm extends Component<P, S> {
     event.preventDefault();
 
     const { lessonIdValue } = this.state;
-    const { teacherKey } = this.props;
-    const type = "asteroid"; // TODO: pass game type through props
-
+    const { teacherKey, contentSlug } = this.props;
     if (!teacherKey) {
       this.setState({ error: "teacher key is missing" })
       return;
     }
+    if (!contentSlug) {
+      this.setState({ error: "contentSlug is missing" })
+      return;
+    }
 
+    let gameType = null;
     try {
-      const newLessonData = await createLesson({
-        id: lessonIdValue,
-        teacherId: teacherKey,
-        gameType: {
-          type
-        },
-        sessions: [],
-      })
-      this.props.history.push(`/lesson/${newLessonData.id}`);
+      gameType = await getGameType(contentSlug);
+      console.log(gameType);
     } catch (error) {
-      // TODO: monkeypatched payload message extraction - should be handled in data handler
-      this.setState({ error: error.response.data });
-      console.error({...error})
+      console.error(error)
+      this.setState({ error });
+    }
+    if (gameType !== null && !this.state.error) {
+      try {
+        const newLessonData = await createLesson({
+          id: lessonIdValue,
+          teacherId: teacherKey,
+          gameType: {
+            type: gameType
+          },
+          sessions: [],
+        })
+        this.props.history.push(`/lesson/${newLessonData.id}`);
+      } catch (error) {
+        if (error.message) {
+          this.setState({ error: error.message });
+          console.error(error)
+        } else {
+          // TODO: monkeypatched payload message extraction - should be handled in data handler by an error handler
+          this.setState({ error: error.response.data });
+          console.error({ ...error })
+        }
+      }
     }
   }
 
@@ -70,7 +89,7 @@ class LessonCreateForm extends Component<P, S> {
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
         <label>
-          {"New lesson Id:"}
+          {content.lessonCreate.newLessonIdTitle.lt}
         </label>
         <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Create & Spectate" />

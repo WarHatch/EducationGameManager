@@ -100,3 +100,5 @@ export const getLesson = async (lessonData: ILessonQuery): Promise<ILesson> => {
   return formattedData;
 }
 //#endregion
+
+export { getGameType } from "./cms";

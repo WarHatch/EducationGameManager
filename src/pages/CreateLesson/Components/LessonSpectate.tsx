@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { getLesson } from "../../../dataHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Alert } from "react-bootstrap";
+import content from "../content";
 
 interface S {
   error: Error | null,
@@ -62,9 +63,7 @@ class LessonSpectate extends Component<P, S> {
 
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
-        <label>
-          {"Spectate lesson id:"}
-        </label>
+        <label>{content.lessonSpectate.lessonSpectateTitle.lt}</label>
         <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Spectate" />
         {error &&
