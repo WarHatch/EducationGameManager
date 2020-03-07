@@ -6,8 +6,6 @@ const sanityClient = sanity({
   token: "skeFzBaDaGhcffZb6SzShSUOpRU6JDR46Y8696X2ZoPvYjUU94Jhc6CIWO3hTgbnDYC9l0EDjB41IFWbRxTvAzuQnDqL1uqvKJX8R4CoAx2Y26iR5cY22FGkMuVtURtCOomDjoBWU7ZzwmWYD2c3YNAzubbluBzgRZuMkfYRWjabBqQnci3M",
 })
 
-export type GameType = "multichoice"
-
 export const getGameType = async (contentSlug: string) => {
   const query = `*[contentSlug.current == "${contentSlug}"]`
 

@@ -40,6 +40,8 @@ class LessonCreateForm extends Component<P, S> {
   async handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({error: null});
+
     const { lessonIdValue } = this.state;
     const { teacherKey, contentSlug } = this.props;
     if (!teacherKey) {
@@ -54,7 +56,6 @@ class LessonCreateForm extends Component<P, S> {
     let gameType = null;
     try {
       gameType = await getGameType(contentSlug);
-      console.log(gameType);
     } catch (error) {
       console.error(error)
       this.setState({ error });
@@ -64,6 +65,7 @@ class LessonCreateForm extends Component<P, S> {
         const newLessonData = await createLesson({
           id: lessonIdValue,
           teacherId: teacherKey,
+          contentSlug,
           gameType: {
             type: gameType
           },

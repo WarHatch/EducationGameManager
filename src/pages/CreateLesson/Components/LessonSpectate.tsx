@@ -39,6 +39,8 @@ class LessonSpectate extends Component<P, S> {
   async handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({error: null});
+
     const { lessonIdValue } = this.state;
     const { teacherKey } = this.props;
 

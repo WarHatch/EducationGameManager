@@ -43,6 +43,7 @@ export const sendLatestSessionConfig = async (lessonId: string, sessionConfig: I
 type ILessonResponse = null | {
   id: string,
   teacherId: string,
+  contentSlug: string,
   gameTypeJSON: string,
   sessions: ISession[],
   createdAt,
@@ -52,6 +53,7 @@ type ILessonResponse = null | {
 interface ILessonCreate {
   id: string,
   teacherId: string,
+  contentSlug: string,
   gameType: {[key: string]: any},
   sessions: ISession[],
 }
