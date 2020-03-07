@@ -1,14 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import config from "../config";
 
-// TODO: create an AxiosResponse<> interface which supports having error property (res.data.error)
+// AxiosResponse type which supports having error property (e.g.: response.data.error)
+type ErrorableResponse<T> = AxiosResponse<T & { error?: any }>
 
 // interfaces
 import { IGameSessionData, ISessionConfig, ILesson, ISession } from "./data";
 
 //#region Session
 export const getSessionData = async (lessonId: string, sessionId: string): Promise<IGameSessionData> => {
-  const res: AxiosResponse<IGameSessionData> = await axios.post(
+  const res: ErrorableResponse<IGameSessionData> = await axios.post(
     `${config.gameElementApiURL}/lesson/${lessonId}/session/data`,
     {
       sessionId
@@ -19,7 +20,7 @@ export const getSessionData = async (lessonId: string, sessionId: string): Promi
 }
 
 export const getLatestSessionConfig = async (lessonId: string, sessionId: string): Promise<ISessionConfig> => {
-  const res = await axios.post(
+  const res: ErrorableResponse<ISessionConfig> = await axios.post(
     `${config.gameElementApiURL}/lesson/${lessonId}/session/config`,
     {
       sessionId
@@ -30,7 +31,7 @@ export const getLatestSessionConfig = async (lessonId: string, sessionId: string
 }
 
 export const sendLatestSessionConfig = async (lessonId: string, sessionConfig: ISessionConfig): Promise<ISessionConfig> => {
-  const res = await axios.post(
+  const res: ErrorableResponse<ISessionConfig> = await axios.post(
     `${config.gameElementApiURL}/lesson/${lessonId}/session/config/new`,
     sessionConfig,
   );
@@ -54,17 +55,16 @@ interface ILessonCreate {
   id: string,
   teacherId: string,
   contentSlug: string,
-  gameType: {[key: string]: any},
+  gameType: { [key: string]: any },
   sessions: ISession[],
 }
 export const createLesson = async (lessonData: ILessonCreate): Promise<ILesson> => {
-  const res: AxiosResponse<ILessonResponse> = await axios.post(
+  const res: ErrorableResponse<ILessonResponse> = await axios.post(
     `${config.gameElementApiURL}/lesson/new`,
     lessonData,
   );
   const { data } = res;
   if (data === null) throw new Error("createLesson responded with null payload");
-  // @ts-ignore
   if (data.error !== undefined) throw data;
 
   const gameType = JSON.parse(data.gameTypeJSON);
@@ -83,13 +83,12 @@ interface ILessonQuery {
   teacherId?: string,
 }
 export const getLesson = async (lessonData: ILessonQuery): Promise<ILesson> => {
-  const res: AxiosResponse<ILessonResponse> = await axios.post(
+  const res: ErrorableResponse<ILessonResponse> = await axios.post(
     `${config.gameElementApiURL}/lesson/`,
     lessonData,
   );
   const { data } = res;
-  if (data === null) throw new Error("Unable to get lesson");
-  // @ts-ignore
+  if (data === null) throw new Error("Unable to find teacher's lesson");
   if (data.error !== undefined) throw data;
 
   const gameType = JSON.parse(data.gameTypeJSON);

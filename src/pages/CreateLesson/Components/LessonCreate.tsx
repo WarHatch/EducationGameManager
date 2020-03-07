@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { createLesson, getGameType } from "../../../dataHandler";
+import errorHandler from "../../../errorHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import content from "../content";
@@ -40,7 +41,7 @@ class LessonCreateForm extends Component<P, S> {
   async handleSubmit(event) {
     event.preventDefault();
 
-    this.setState({error: null});
+    this.setState({ error: null });
 
     const { lessonIdValue } = this.state;
     const { teacherKey, contentSlug } = this.props;
@@ -53,15 +54,9 @@ class LessonCreateForm extends Component<P, S> {
       return;
     }
 
-    let gameType = null;
     try {
-      gameType = await getGameType(contentSlug);
-    } catch (error) {
-      console.error(error)
-      this.setState({ error });
-    }
-    if (gameType !== null && !this.state.error) {
-      try {
+      const gameType = await getGameType(contentSlug);
+      if (gameType !== null) {
         const newLessonData = await createLesson({
           id: lessonIdValue,
           teacherId: teacherKey,
@@ -72,16 +67,9 @@ class LessonCreateForm extends Component<P, S> {
           sessions: [],
         })
         this.props.history.push(`/lesson/${newLessonData.id}`);
-      } catch (error) {
-        if (error.message) {
-          this.setState({ error: error.message });
-          console.error(error)
-        } else {
-          // TODO: monkeypatched payload message extraction - should be handled in data handler by an error handler
-          this.setState({ error: error.response.data });
-          console.error({ ...error })
-        }
       }
+    } catch (error) {
+      errorHandler(error, (errorMessage) => this.setState({ error: errorMessage }))
     }
   }
 
