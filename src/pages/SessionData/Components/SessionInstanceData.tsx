@@ -96,7 +96,7 @@ class SessionInstanceData extends Component<P, S> {
           <p>Loading...</p>
         }
         {error &&
-          <div className="error">{error.toString()}</div>
+          <div className="text-danger">{error.toString()}</div>
         }
         {
           sessionData &&

@@ -114,7 +114,7 @@ class SessionConfig extends Component<P, S> {
       <div className="configPanel">
         <p>Config</p>
         <ul>
-          <li>{"Asteroid spawn per minute:" + sessionData.asteroidSpawnPerMinute}</li>
+          <li>{"Asteroid spawn per minute: " + sessionData.asteroidSpawnPerMinute}</li>
           <li>{"Asteroid crashes in: " + sessionData.asteroidSecondsToCrash + " seconds"}</li>
         </ul>
         {/* FIXME: do not render if session has ended */}
