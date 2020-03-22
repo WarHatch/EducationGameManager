@@ -3,7 +3,7 @@ interface IReturnedData {
   updatedAt: Date,
 }
 
-export interface IClickData extends IReturnedData {
+export interface IAsteroidClickData extends IReturnedData {
   id: number,
   reactionTime: number,
   correct: boolean,
@@ -22,6 +22,7 @@ export interface ISessionConfig {
   sessionId: string,
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
+  gameType: string,
 }
 
 export interface ISession extends IReturnedData {
@@ -29,7 +30,7 @@ export interface ISession extends IReturnedData {
   finishedAt: Date,
   lessonId: string,
   playerName: string,
-  clickData: IClickData[],
+  asteroidClickData: IAsteroidClickData[],
   // sessionConfigs: ISessionConfig[],
 }
 

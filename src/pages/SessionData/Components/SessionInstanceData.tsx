@@ -56,7 +56,7 @@ class SessionInstanceData extends Component<P, S> {
 
   renderSessionContainer(sessionData: IGameSessionData) {
     const { fullData, averageReactionTime, correctPercentage } = sessionData;
-    const { clickData, createdAt, finishedAt } = fullData;
+    const { asteroidClickData, createdAt, finishedAt } = fullData;
 
     const noAnswersText = "no answers yet ⌛"
     const inProgressText = "in progress 💭"
@@ -80,7 +80,7 @@ class SessionInstanceData extends Component<P, S> {
             noAnswersText
           }</li>
         <li>{`answers:`}
-          {clickData.map((c) => <AnswerCirlce key={c.id} correct={c.correct} />)}
+          {asteroidClickData.map((c) => <AnswerCirlce key={c.id} correct={c.correct} />)}
         </li>
       </>
     )

@@ -8,6 +8,7 @@ import { ISessionConfig } from "../../../dataHandler/data";
 interface IInputSessionConfig {
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
+  gameType: string,
 }
 
 type P = {
@@ -52,7 +53,11 @@ class SessionConfig extends Component<P, S> {
       const { asteroidSecondsToCrash, asteroidSpawnPerMinute } = newConfig;
       this.setState({
         sessionConfig: newConfig,
-        inputSessionConfig: { asteroidSpawnPerMinute, asteroidSecondsToCrash }
+        inputSessionConfig: {
+          asteroidSpawnPerMinute,
+          asteroidSecondsToCrash,
+          gameType: "asteroid" // TODO: could be an issue if this component is reused for other game-types
+        }
       })
     }).catch((error) => {
       this.setState({ error });
