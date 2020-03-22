@@ -45,7 +45,7 @@ type ILessonResponse = null | {
   id: string,
   teacherId: string,
   contentSlug: string,
-  gameTypeJSON: string,
+  gameType: string,
   sessions: ISession[],
   createdAt,
   updatedAt,
@@ -55,7 +55,7 @@ interface ILessonCreate {
   id: string,
   teacherId: string,
   contentSlug: string,
-  gameType: { [key: string]: any },
+  gameType: string,
   sessions: ISession[],
 }
 export const createLesson = async (lessonData: ILessonCreate): Promise<ILesson> => {
@@ -67,14 +67,7 @@ export const createLesson = async (lessonData: ILessonCreate): Promise<ILesson> 
   if (data === null) throw new Error("createLesson responded with null payload");
   if (data.error !== undefined) throw data;
 
-  const gameType = JSON.parse(data.gameTypeJSON);
-
-  const formattedData: ILesson = {
-    ...data,
-    gameType,
-  }
-
-  return formattedData;
+  return data;
 }
 
 
@@ -91,15 +84,8 @@ export const getLesson = async (lessonData: ILessonQuery): Promise<ILesson> => {
   if (data === null) throw new Error("Unable to find teacher's lesson");
   if (data.error !== undefined) throw data;
 
-  const gameType = JSON.parse(data.gameTypeJSON);
-
-  const formattedData: ILesson = {
-    ...data,
-    gameType,
-  }
-
-  return formattedData;
+  return data;
 }
 //#endregion
 
-export { getGameType } from "./cms";
+export { getGameContentType } from "./cms";

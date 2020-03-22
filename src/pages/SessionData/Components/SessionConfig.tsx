@@ -117,7 +117,6 @@ class SessionConfig extends Component<P, S> {
           <li>{"Asteroid spawn per minute: " + sessionData.asteroidSpawnPerMinute}</li>
           <li>{"Asteroid crashes in: " + sessionData.asteroidSecondsToCrash + " seconds"}</li>
         </ul>
-        {/* FIXME: do not render if session has ended */}
         <form className="container" onSubmit={(e) => this.onSend(e, inputSessionConfig)}>
           <div className="row">
             <div className="col-sm-9">

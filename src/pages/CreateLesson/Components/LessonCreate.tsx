@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { createLesson, getGameType } from "../../../dataHandler";
+import { createLesson, getGameContentType } from "../../../dataHandler";
 import errorHandler from "../../../errorHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import content from "../content";
@@ -54,15 +54,13 @@ class LessonCreateForm extends Component<P, S> {
     }
 
     try {
-      const gameType = await getGameType(contentSlug);
-      if (gameType !== null) {
+      const gameContentType = await getGameContentType(contentSlug);
+      if (gameContentType !== null) {
         const newLessonData = await createLesson({
           id: lessonIdValue,
           teacherId: teacherKey,
           contentSlug,
-          gameType: {
-            type: gameType
-          },
+          gameType: gameContentType,
           sessions: [],
         })
         this.props.history.push(`/lesson/${newLessonData.id}`);
