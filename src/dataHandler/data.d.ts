@@ -5,7 +5,7 @@ interface IReturnedData {
 
 export interface IAsteroidClickData extends IReturnedData {
   id: number,
-  reactionTime: number,
+  spawnToClickTime: number,
   correct: boolean,
   question: string,
   sessionId: string,

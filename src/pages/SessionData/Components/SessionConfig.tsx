@@ -56,7 +56,7 @@ class SessionConfig extends Component<P, S> {
         inputSessionConfig: {
           asteroidSpawnPerMinute,
           asteroidSecondsToCrash,
-          gameType: "asteroid" // TODO: could be an issue if this component is reused for other game-types
+          gameType: "asteroid" // FIXME: could be an issue if this component is reused for other game-types
         }
       })
     }).catch((error) => {
