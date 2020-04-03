@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { getLesson } from "../../../dataHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import content from "../content";
+import { pushSessionRoute } from "../routerLogic";
 
 interface S {
   error: Error | null,
@@ -52,7 +53,7 @@ class LessonSpectate extends Component<P, S> {
         id: lessonIdValue,
         teacherId: teacherKey,
       })
-      this.props.history.push(`/lesson/${newLessonData.id}`);
+      pushSessionRoute(this, newLessonData.gameType, lessonIdValue);
     } catch (error) {
       this.setState({ error });
       console.error(error)

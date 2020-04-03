@@ -3,6 +3,7 @@ import { createLesson, getGameContentType } from "../../../dataHandler";
 import errorHandler from "../../../errorHandler";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import content from "../content";
+import { pushSessionRoute } from "../routerLogic";
 
 interface S {
   error: Error | string | null,
@@ -63,7 +64,7 @@ class LessonCreateForm extends Component<P, S> {
           gameType: gameContentType,
           sessions: [],
         })
-        this.props.history.push(`/lesson/${newLessonData.id}`);
+        pushSessionRoute(this, gameContentType, lessonIdValue)
       }
     } catch (error) {
       errorHandler(error, (errorMessage) => this.setState({ error: errorMessage }))

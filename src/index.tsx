@@ -3,12 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import { render } from "react-dom"
 
-import SessionData from "./pages/SessionData";
 import ChooseLesson from "./pages/CreateLesson";
+import AsteroidSession from "./pages/SessionData/asteroidSession";
+import SentenceConstructorSession from "./pages/SessionData/sentenceConstructorSession";
 
 export type IGlobalState = {
 }
@@ -36,8 +36,11 @@ class App extends React.Component<{}, IGlobalState> {
     return (
       <Router>
         <Switch>
-          <Route path="/lesson/:lessonId">
-            <SessionData />
+          <Route path="/asteroid/lesson/:lessonId">
+            <AsteroidSession />
+          </Route>
+          <Route path="/sentenceConstructor/lesson/:lessonId">
+            <SentenceConstructorSession />
           </Route>
           <Route exact path="/">
             <ChooseLesson />

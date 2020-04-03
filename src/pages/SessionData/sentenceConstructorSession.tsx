@@ -19,7 +19,8 @@ interface R {
   lessonId: string,
 }
 
-class Page extends Component<P, S> {
+// FIXME: rework for sentenceConstructor
+class sentenceConstructorSessionPage extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -109,4 +110,4 @@ class Page extends Component<P, S> {
   }
 }
 
-export default withRouter(Page);
+export default withRouter(sentenceConstructorSessionPage);
