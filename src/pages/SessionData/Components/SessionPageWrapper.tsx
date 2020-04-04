@@ -1,26 +1,22 @@
 import React, { Component } from "react"
-
-import SessionInstanceData from "./Components/SessionInstanceData";
-import SessionConfig from "./Components/SessionConfig";
 import { RouteComponentProps, RouteProps, withRouter } from "react-router-dom";
-import { getLesson } from "../../dataHandler";
 
-import { ILesson } from "../../dataHandler/data";
+import { getLesson } from "../../../dataHandler";
+import { ILesson, ISession } from "../../../dataHandler/data";
 
 interface S {
   lessonData: ILesson | null,
   error: Error | null,
 }
 
-interface P extends RouteComponentProps<R> {
-}
-
-interface R {
+interface P {
+  // children
   lessonId: string,
+  sessionDataRender: (sessionData: ISession) => JSX.Element
 }
 
 // FIXME: rework for sentenceConstructor
-class sentenceConstructorSessionPage extends Component<P, S> {
+class SessionPageWrapper extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -31,8 +27,7 @@ class sentenceConstructorSessionPage extends Component<P, S> {
   }
 
   async updateLessonData() {
-    const { match: { params: { lessonId } } } = this.props;
-    if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
+    const { lessonId } = this.props;
     try {
       const lessonData = await getLesson({ id: lessonId });
       this.setState({ lessonData })
@@ -42,11 +37,13 @@ class sentenceConstructorSessionPage extends Component<P, S> {
   }
 
   componentDidMount() {
-    // FIXME: update regularly
+    // FIXME: update regularly replacing `updateSessionData`
     this.updateLessonData();
   }
 
   componentWillUnmount() {
+    // TODO: dispose of cron functions
+
     window.stop();
   }
 
@@ -70,15 +67,12 @@ class sentenceConstructorSessionPage extends Component<P, S> {
   }
 
   render() {
-    const { match: { params: { lessonId } } } = this.props;
-    if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
-    const { lessonData, error } = this.state;
-    // TODO: seems unnecesarry
-    const relevantLessonData = lessonData?.sessions.map(({ sessionId, playerName, finishedAt }) => ({
-      sessionId,
-      playerName,
-      finishedAt,
-    }));
+    const { lessonId } = this.props;
+    const {
+      lessonData,
+      error
+    } = this.state;
+    const sessionData = lessonData?.sessions;
 
     return (
       <div className="container pt-3">
@@ -91,23 +85,13 @@ class sentenceConstructorSessionPage extends Component<P, S> {
           )
         }
         {
-          relevantLessonData === undefined ?
+          sessionData === undefined ?
             this.renderLoading() :
-            relevantLessonData.map(({ sessionId, playerName, finishedAt }) => {
-              return (<React.Fragment key={sessionId}>
-                <div className="pb-3">
-                  <SessionInstanceData lessonId={lessonId} sessionId={sessionId} playerName={playerName} />
-                </div>
-                {!finishedAt &&
-                  <SessionConfig lessonId={lessonId} sessionId={sessionId} />
-                }
-                <hr />
-              </React.Fragment>)
-            })
+            sessionData.map(this.props.sessionDataRender)
         }
       </div>
     )
   }
 }
 
-export default withRouter(sentenceConstructorSessionPage);
+export default SessionPageWrapper;

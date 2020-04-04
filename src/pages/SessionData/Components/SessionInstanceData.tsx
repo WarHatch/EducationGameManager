@@ -57,6 +57,7 @@ class SessionInstanceData extends Component<P, S> {
   renderSessionContainer(sessionData: IGameSessionData) {
     const { fullData, averageReactionTime, correctPercentage } = sessionData;
     const { asteroidClickData, createdAt, finishedAt } = fullData;
+    if (asteroidClickData === undefined) throw new Error("asteroidClickData is undefined");
 
     const noAnswersText = "no answers yet ⌛"
     const inProgressText = "in progress 💭"

@@ -7,8 +7,7 @@ import {
 import { render } from "react-dom"
 
 import ChooseLesson from "./pages/CreateLesson";
-import AsteroidSession from "./pages/SessionData/asteroidSession";
-import SentenceConstructorSession from "./pages/SessionData/sentenceConstructorSession";
+import { sentenceConstructorSessionPageWithRoute, asteroidSessionPageWithRoute } from "./pages/SessionData";
 
 export type IGlobalState = {
 }
@@ -37,10 +36,10 @@ class App extends React.Component<{}, IGlobalState> {
       <Router>
         <Switch>
           <Route path="/asteroid/lesson/:lessonId">
-            <AsteroidSession />
+            {asteroidSessionPageWithRoute}
           </Route>
           <Route path="/sentenceConstructor/lesson/:lessonId">
-            <SentenceConstructorSession />
+            {sentenceConstructorSessionPageWithRoute}
           </Route>
           <Route exact path="/">
             <ChooseLesson />

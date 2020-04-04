@@ -9,7 +9,22 @@ export interface IAsteroidClickData extends IReturnedData {
   correct: boolean,
   question: string,
   sessionId: string,
-} 
+}
+
+export interface ISentenceConstructorClickDataModel extends IReturnedData {
+  sessionId: string
+  correct: boolean | null
+  spawnToClickTime: number
+  attemptedAnswer: string
+  attemptedSlotNumber: number | null
+}
+
+export interface ISentenceConstructorCompletedDataModel extends IReturnedData {
+  sessionId: string
+  spawnToClickTime: number
+  attemptedAnswerString: string
+  correctPercentage: number | null,
+}
 
 export interface IGameSessionData extends IReturnedData {
   fullData: ISession;
@@ -27,10 +42,12 @@ export interface ISessionConfig {
 
 export interface ISession extends IReturnedData {
   sessionId: string,
-  finishedAt: Date,
   lessonId: string,
   playerName: string,
-  asteroidClickData: IAsteroidClickData[],
+  finishedAt: Date,
+  asteroidClickData?: IAsteroidClickData[],
+  sentenceConstructorClickData?: ISentenceConstructorClickDataModel[],
+  sentenceConstructorCompletedData?: ISentenceConstructorCompletedDataModel[],
   // sessionConfigs: ISessionConfig[],
 }
 
