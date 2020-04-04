@@ -22,7 +22,7 @@ type S = {
   inputSessionConfig?: IInputSessionConfig,
 }
 
-class SessionConfig extends Component<P, S> {
+class AsteroidSessionConfig extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -56,7 +56,7 @@ class SessionConfig extends Component<P, S> {
         inputSessionConfig: {
           asteroidSpawnPerMinute,
           asteroidSecondsToCrash,
-          gameType: "asteroid" // FIXME: could be an issue if this component is reused for other game-types
+          gameType: "asteroid"
         }
       })
     }).catch((error) => {
@@ -181,4 +181,4 @@ class SessionConfig extends Component<P, S> {
   }
 }
 
-export default SessionConfig
+export default AsteroidSessionConfig

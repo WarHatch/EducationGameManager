@@ -1,8 +1,9 @@
 import React, { Component } from "react"
 import { RouteComponentProps, RouteProps, withRouter } from "react-router-dom";
 
-import AsteroidSessionInstanceData from "./Components/AsteroidSessionInstanceData";
-import SessionConfig from "./Components/SessionConfig";
+import AsteroidSessionInstanceData from "./Asteroid/AsteroidSessionInstanceData";
+import SentenceConstructorInstanceData from "./SentenceConstructor/SentenceConstructorInstanceData";
+import AsteroidSessionConfig from "./Asteroid/AsteroidSessionConfig";
 import SessionPageWrapper from "./Components/SessionPageWrapper";
 import { ISession } from "../../dataHandler/data";
 
@@ -25,18 +26,18 @@ class SentenceConstructorSessionPage extends Component<P> {
     const sentenceConstructorSessionDataRender = (sessionData: ISession) => {
       const { sessionId, playerName, finishedAt } = sessionData;
 
-      // TODO: make specific for SC
       return (
         <React.Fragment key={sessionId}>
           <div className="pb-3">
-            <AsteroidSessionInstanceData
+            <SentenceConstructorInstanceData
               lessonId={lessonId}
               playerName={playerName}
               sessionData={sessionData}
             />
           </div>
+          {/* TODO: make specific for SC */}
           {!finishedAt &&
-            <SessionConfig lessonId={lessonId} sessionId={sessionId} />
+            <AsteroidSessionConfig lessonId={lessonId} sessionId={sessionId} />
           }
           <hr />
         </React.Fragment>
@@ -71,7 +72,7 @@ class AsteroidSessionPage extends Component<P> {
             />
           </div>
           {!finishedAt &&
-            <SessionConfig lessonId={lessonId} sessionId={sessionId} />
+            <AsteroidSessionConfig lessonId={lessonId} sessionId={sessionId} />
           }
           <hr />
         </React.Fragment>
