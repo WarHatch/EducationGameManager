@@ -9,6 +9,8 @@ import { IGameSessionData, ISessionConfig, ILesson, ISession } from "./data";
 
 //#region Session
 export const getSessionData = async (lessonId: string, sessionId: string): Promise<IGameSessionData> => {
+  console.warn("getSessionData is deprecated");
+  
   const res: ErrorableResponse<IGameSessionData> = await axios.post(
     `${config.gameElementApiURL}/lesson/${lessonId}/session/data`,
     {

@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { RouteComponentProps, RouteProps, withRouter } from "react-router-dom";
 
 import { getLesson } from "../../../dataHandler";
 import { ILesson, ISession } from "../../../dataHandler/data";
@@ -26,6 +25,8 @@ class SessionPageWrapper extends Component<P, S> {
     };
   }
 
+  updateLessonDataInterval: NodeJS.Timeout | null = null;
+
   async updateLessonData() {
     const { lessonId } = this.props;
     try {
@@ -37,14 +38,17 @@ class SessionPageWrapper extends Component<P, S> {
   }
 
   componentDidMount() {
-    // FIXME: update regularly replacing `updateSessionData`
     this.updateLessonData();
+    this.updateLessonDataInterval = setInterval(() => {
+      this.updateLessonData();
+    }, 1000);
   }
 
   componentWillUnmount() {
-    // TODO: dispose of cron functions
-
-    window.stop();
+    if (this.updateLessonDataInterval !== null) {
+      clearInterval(this.updateLessonDataInterval)
+      this.updateLessonDataInterval = null;
+    }
   }
 
   renderLoading() {
