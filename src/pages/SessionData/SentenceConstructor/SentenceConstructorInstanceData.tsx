@@ -3,7 +3,8 @@ import moment from "moment";
 
 // Types
 import { ISentenceConstructorClickDataModel, ISentenceConstructorCompletedDataModel, ISession } from "../../../dataHandler/data";
-import AnswerCirlce from "../Components/AnswerCircle";
+import content from "../content";
+import ClickRecap from "../Components/ClickRecap";
 
 type P = {
   lessonId: string
@@ -21,27 +22,38 @@ class SentenceConstructorInstanceData extends Component<P> {
   }
 
   renderSessionContainer(sessionData: ISession) {
-    const { asteroidClickData, createdAt, finishedAt } = sessionData;
-    if (asteroidClickData === undefined) throw new Error("asteroidClickData is undefined");
+    const { sentenceConstructorClickData, sentenceConstructorCompletedData, createdAt, finishedAt } = sessionData;
+    if (sentenceConstructorClickData === undefined) throw new Error("sentenceConstructorClickData is undefined");
+    const answerAttemptData = sentenceConstructorClickData.filter((c) => c.correct !== null)
 
     const noAnswersText = "no answers yet ⌛"
     const inProgressText = "in progress 💭"
 
     return (
       <>
+        {/* TODO: translate into content */}
         <li>{`game started at: ${moment(createdAt).format("l")} ${moment(createdAt).format("LTS")}`}</li>
         <li>{`game status: ${finishedAt ?
           `finished at ${moment(finishedAt).format("l")} ${moment(finishedAt).format("LTS")}` :
           inProgressText}`}</li>
-        {/* TODO: Click timeline (with correct/incorrect marking) */}
-        {/* <li>{"correct answers: "}
-          {correctPercentage ?
-            `${correctPercentage.toFixed(2)}%` :
-            noAnswersText
-          }</li> */}
-        <li>{`answers:`}
-          {asteroidClickData.map((c) => <AnswerCirlce key={c.id} correct={c.correct} />)}
+        {/* TODO: keep in mind multiple game sessions */}
+        <li>{`Bandymų atsakyti eiga: `}
+          {answerAttemptData.map((c) =>
+            <ClickRecap key={c.id}
+              clickName={c.attemptedAnswer}
+              // @ts-ignore answerAttemptData has no correct === null
+              correct={c.correct}
+              // TODO: use spawnToClickTime
+              date={c.createdAt}
+            />
+          )}
         </li>
+        {finishedAt && sentenceConstructorCompletedData !== undefined &&
+          <li>
+            {`Galutinis įvertinimas: `}
+            {sentenceConstructorCompletedData[0] !== undefined && sentenceConstructorCompletedData[0].correctPercentage}
+            {`%`}
+          </li>}
       </>
     )
   }
@@ -52,7 +64,7 @@ class SentenceConstructorInstanceData extends Component<P> {
 
     return (
       <div className="sessionInstance">
-        <p className="data">{"Data of: " + this.props.playerName}</p>
+        <p className="data">{content.SentenceConstructor.instanceData.nameLabel.lt + this.props.playerName}</p>
         {/* {error &&
           <div className="text-danger">{error.toString()}</div>
         } */}

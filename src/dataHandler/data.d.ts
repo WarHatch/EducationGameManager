@@ -12,6 +12,7 @@ export interface IAsteroidClickData extends IReturnedData {
 }
 
 export interface ISentenceConstructorClickDataModel extends IReturnedData {
+  id: number,
   sessionId: string
   correct: boolean | null
   spawnToClickTime: number
@@ -20,12 +21,14 @@ export interface ISentenceConstructorClickDataModel extends IReturnedData {
 }
 
 export interface ISentenceConstructorCompletedDataModel extends IReturnedData {
+  id: number,
   sessionId: string
   spawnToClickTime: number
   attemptedAnswerString: string
   correctPercentage: number | null,
 }
 
+// Deprecated
 export interface IGameSessionData extends IReturnedData {
   fullData: ISession;
   averageReactionTime: number | null,

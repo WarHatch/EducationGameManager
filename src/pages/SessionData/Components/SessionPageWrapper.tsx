@@ -63,8 +63,8 @@ class SessionPageWrapper extends Component<P, S> {
   renderHeader(lessonId: string) {
     return (
       <div className="pb-4">
-        <h2 className="d-inline mr-3">{`LessonId: `}<strong>{lessonId}</strong></h2>
-        <button type="button" className="btn btn-primary btn-lg" onClick={(e) => this.updateLessonData()}>
+        <h2 className="d-inline mr-3">{`Pamokos kodas (lesson id): `}<strong>{lessonId}</strong></h2>
+        <button type="button" className="btn btn-secondary btn-lg" onClick={(e) => this.updateLessonData()}>
           {content.SessionPageWrapper.refreshButton.lt}
         </button>
       </div>
