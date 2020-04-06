@@ -6,6 +6,7 @@ import SentenceConstructorInstanceData from "./SentenceConstructor/SentenceConst
 import AsteroidSessionConfig from "./Asteroid/AsteroidSessionConfig";
 import SessionPageWrapper from "./Components/SessionPageWrapper";
 import { ISession } from "../../dataHandler/data";
+import SentenceConstructorSessionConfig from "./SentenceConstructor/SentenceConstructorSessionConfig";
 
 interface P extends RouteComponentProps<R> {
 }
@@ -24,7 +25,9 @@ class SentenceConstructorSessionPage extends Component<P> {
     if (lessonId === undefined) throw new Error("lessonId in url path is undefined");
 
     const sentenceConstructorSessionDataRender = (sessionData: ISession) => {
-      const { sessionId, playerName, finishedAt } = sessionData;
+      const { sessionId, playerName, finishedAt, sentenceConstructorConfigs } = sessionData;
+      if (sentenceConstructorConfigs === undefined) throw new Error("SC config undefined");
+      const sessionConfig = sentenceConstructorConfigs[0]
 
       return (
         <React.Fragment key={sessionId}>
@@ -35,9 +38,8 @@ class SentenceConstructorSessionPage extends Component<P> {
               sessionData={sessionData}
             />
           </div>
-          {/* TODO: make specific for SC */}
           {!finishedAt &&
-            <AsteroidSessionConfig lessonId={lessonId} sessionId={sessionId} />
+            <SentenceConstructorSessionConfig lessonId={lessonId} sessionConfig={sessionConfig} />
           }
           <hr />
         </React.Fragment>

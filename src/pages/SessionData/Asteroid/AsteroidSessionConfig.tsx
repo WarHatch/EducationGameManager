@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 
-import { getLatestSessionConfig, sendLatestSessionConfig } from "../../../dataHandler/index";
+import { getLatestSessionConfig, sendLatestAsteroidSessionConfig } from "../../../dataHandler/index";
 
 // Types
-import { ISessionConfig } from "../../../dataHandler/data";
+import { IAsteroidSessionConfig } from "../../../dataHandler/data";
 
 interface IInputSessionConfig {
   asteroidSpawnPerMinute: number,
@@ -18,7 +18,7 @@ type P = {
 
 type S = {
   error: Error | null,
-  sessionConfig?: ISessionConfig,
+  sessionConfig?: IAsteroidSessionConfig,
   inputSessionConfig?: IInputSessionConfig,
 }
 
@@ -98,7 +98,7 @@ class AsteroidSessionConfig extends Component<P, S> {
     event.preventDefault();
 
     const { sessionId, lessonId } = this.props;
-    sendLatestSessionConfig(
+    sendLatestAsteroidSessionConfig(
       lessonId,
       {
         ...inputSessionConfig,
@@ -114,7 +114,7 @@ class AsteroidSessionConfig extends Component<P, S> {
     )
   }
 
-  renderSessionConfigPanel(sessionData: ISessionConfig, inputSessionConfig: IInputSessionConfig) {
+  renderSessionConfigPanel(sessionData: IAsteroidSessionConfig, inputSessionConfig: IInputSessionConfig) {
     return (
       <div className="configPanel">
         <p>Config</p>

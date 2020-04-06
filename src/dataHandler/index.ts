@@ -5,24 +5,23 @@ import config from "../config";
 type ErrorableResponse<T> = AxiosResponse<T & { error?: any }>
 
 // interfaces
-import { IGameSessionData, ISessionConfig, ILesson, ISession } from "./data";
+import { IGameSessionData, IAsteroidSessionConfig, ILesson, ISession, ISCSessionConfig } from "./data";
 
-//#region Session
-export const getSessionData = async (lessonId: string, sessionId: string): Promise<IGameSessionData> => {
-  console.warn("getSessionData is deprecated");
-  
-  const res: ErrorableResponse<IGameSessionData> = await axios.post(
-    `${config.gameElementApiURL}/lesson/${lessonId}/session/data`,
-    {
-      sessionId
-    }
-  );
-  const { data } = res;
-  return data;
-}
+// export const getSessionData = async (lessonId: string, sessionId: string): Promise<IGameSessionData> => {
+//   console.warn("getSessionData is deprecated");
+//   const res: ErrorableResponse<IGameSessionData> = await axios.post(
+//     `${config.gameElementApiURL}/lesson/${lessonId}/session/data`,
+//     {
+//       sessionId
+//     }
+//   );
+//   const { data } = res;
+//   return data;
+// }
 
-export const getLatestSessionConfig = async (lessonId: string, sessionId: string): Promise<ISessionConfig> => {
-  const res: ErrorableResponse<ISessionConfig> = await axios.post(
+//#region Config
+export const getLatestSessionConfig = async (lessonId: string, sessionId: string): Promise<IAsteroidSessionConfig> => {
+  const res: ErrorableResponse<IAsteroidSessionConfig> = await axios.post(
     `${config.gameElementApiURL}/lesson/${lessonId}/session/config`,
     {
       sessionId
@@ -32,14 +31,32 @@ export const getLatestSessionConfig = async (lessonId: string, sessionId: string
   return data;
 }
 
-export const sendLatestSessionConfig = async (lessonId: string, sessionConfig: ISessionConfig): Promise<ISessionConfig> => {
-  const res: ErrorableResponse<ISessionConfig> = await axios.post(
-    `${config.gameElementApiURL}/lesson/${lessonId}/session/config/new`,
-    sessionConfig,
-  );
-  const { data } = res;
-  return data;
+export const sendLatestAsteroidSessionConfig =
+  async (lessonId: string, sessionConfig: IAsteroidSessionConfig): Promise<IAsteroidSessionConfig> => {
+    const res: ErrorableResponse<IAsteroidSessionConfig> = await axios.post(
+      `${config.gameElementApiURL}/lesson/${lessonId}/session/config/new`,
+      sessionConfig,
+    );
+    const { data } = res;
+    return data;
+  }
+
+interface ISCSessionConfigPayload {
+  sessionId: string
+  hintMessage: string | null
+  nextContentSlug: string | null
 }
+
+export const sendLatestSCSessionConfig =
+  async (lessonId: string, sessionConfig: ISCSessionConfigPayload): Promise<ISCSessionConfig> => {
+    const res: ErrorableResponse<ISCSessionConfig> = await axios.post(
+      `${config.gameElementApiURL}/lesson/${lessonId}/session/config/new/sentenceConstructor`,
+      sessionConfig,
+    );
+    const { data } = res;
+    return data;
+  }
+
 //#endregion
 
 //#region Lesson

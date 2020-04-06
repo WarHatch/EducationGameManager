@@ -33,11 +33,16 @@ export interface IGameSessionData extends IReturnedData {
   incorrectPercentage: number | null,
 }
 
-export interface ISessionConfig {
+export interface IAsteroidSessionConfig {
   sessionId: string,
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
-  gameType: string,
+}
+
+export interface ISCSessionConfig {
+  sessionId: string
+  hintMessage?: string
+  nextContentSlug?: string
 }
 
 export interface ISession extends IReturnedData {
@@ -46,9 +51,10 @@ export interface ISession extends IReturnedData {
   playerName: string,
   finishedAt: Date,
   asteroidClickData?: IAsteroidClickData[],
+  asteroidSessionConfigs?: IAsteroidSessionConfig[],
   sentenceConstructorClickData?: ISentenceConstructorClickDataModel[],
   sentenceConstructorCompletedData?: ISentenceConstructorCompletedDataModel[],
-  // sessionConfigs: ISessionConfig[],
+  sentenceConstructorConfigs?: ISCSessionConfig[],
 }
 
 // interface game<T> { type: T }

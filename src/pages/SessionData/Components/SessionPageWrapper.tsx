@@ -2,6 +2,7 @@ import React, { Component } from "react"
 
 import { getLesson } from "../../../dataHandler";
 import { ILesson, ISession } from "../../../dataHandler/data";
+import content from "../content";
 
 interface S {
   lessonData: ILesson | null,
@@ -64,7 +65,7 @@ class SessionPageWrapper extends Component<P, S> {
       <div className="pb-4">
         <h2 className="d-inline mr-3">{`LessonId: `}<strong>{lessonId}</strong></h2>
         <button type="button" className="btn btn-primary btn-lg" onClick={(e) => this.updateLessonData()}>
-          Refresh lesson's session list
+          {content.SessionPageWrapper.refreshButton.lt}
         </button>
       </div>
     )
