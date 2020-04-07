@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import moment from "moment";
 
 // Types
-import { ISentenceConstructorClickDataModel, ISentenceConstructorCompletedDataModel, ISession } from "../../../dataHandler/data";
+import { ISession } from "../../../dataHandler/data";
 import content from "../content";
 import ClickRecap from "../Components/ClickRecap";
 
@@ -27,16 +27,12 @@ class SentenceConstructorInstanceData extends Component<P> {
     const answerAttemptData = sentenceConstructorClickData.filter((c) => c.correct !== null)
     answerAttemptData.sort((a, b) => a.spawnToClickTime - b.spawnToClickTime)
 
-    const noAnswersText = "no answers yet ⌛"
-    const inProgressText = "in progress 💭"
-
     return (
       <>
-        {/* TODO: translate into content */}
-        <li>{`game started at: ${moment(createdAt).format("l")} ${moment(createdAt).format("LTS")}`}</li>
-        <li>{`game status: ${finishedAt ?
-          `finished at ${moment(finishedAt).format("l")} ${moment(finishedAt).format("LTS")}` :
-          inProgressText}`}</li>
+        <li>{`${content.SentenceConstructor.instanceData.startedLabel.lt} ${moment(createdAt).format("l")} ${moment(createdAt).format("LTS")}`}</li>
+        <li>{`${content.SentenceConstructor.instanceData.statusLabel.lt} ${finishedAt ?
+          `${content.SentenceConstructor.instanceData.statusText.lt} ${moment(finishedAt).format("l")} ${moment(finishedAt).format("LTS")}` :
+          content.misc.inProgressText.lt}`}</li>
         {/* TODO: keep in mind multiple game sessions */}
         <li>{`Bandymų atsakyti eiga: `}
           {answerAttemptData.map((c) =>

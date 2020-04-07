@@ -22,6 +22,18 @@ export default {
 			nameLabel: {
 				"en": "Data of: ",
 				"lt": "Mokinio vardas: "
+			},
+			startedLabel: {
+				"en": "game started at:",
+				"lt": "Pradėta:"
+			},
+			statusLabel: {
+				"en": "game status:",
+				"lt": "Žaidimo būsena:"
+			},
+			statusText: {
+				"en": "finished at",
+				"lt": "pabaigta"
 			}
 		}
 	},
@@ -29,6 +41,16 @@ export default {
 		refreshButton: {
 			"en": "Refresh lesson's session list",
 			"lt": "Atnaujinti pamokos sesijas"
+		}
+	},
+	misc:{
+		noAnswersText: {
+			"en": "no answers yet ⌛",
+			"lt": "dar nėra mėginimų atsakyti... ⌛"
+		},
+		inProgressText: {
+			"en": "in progress 💭",
+			"lt": "sesija aktyvi... 💭"
 		}
 	}
 }
