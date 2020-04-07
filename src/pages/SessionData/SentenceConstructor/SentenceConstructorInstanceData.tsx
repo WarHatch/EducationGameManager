@@ -25,6 +25,7 @@ class SentenceConstructorInstanceData extends Component<P> {
     const { sentenceConstructorClickData, sentenceConstructorCompletedData, createdAt, finishedAt } = sessionData;
     if (sentenceConstructorClickData === undefined) throw new Error("sentenceConstructorClickData is undefined");
     const answerAttemptData = sentenceConstructorClickData.filter((c) => c.correct !== null)
+    answerAttemptData.sort((a, b) => a.spawnToClickTime - b.spawnToClickTime)
 
     const noAnswersText = "no answers yet ⌛"
     const inProgressText = "in progress 💭"
