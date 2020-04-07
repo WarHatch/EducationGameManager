@@ -52,7 +52,7 @@ class SentenceConstructorInstanceData extends Component<P> {
         {finishedAt && sentenceConstructorCompletedData !== undefined &&
           <li>
             {`Galutinis įvertinimas: `}
-            {sentenceConstructorCompletedData[0] !== undefined && sentenceConstructorCompletedData[0].correctPercentage}
+            {sentenceConstructorCompletedData[0] !== undefined && sentenceConstructorCompletedData[0].correctPercentage?.toFixed(2)}
             {`%`}
           </li>}
       </>

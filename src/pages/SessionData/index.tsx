@@ -27,7 +27,7 @@ class SentenceConstructorSessionPage extends Component<P> {
     const sentenceConstructorSessionDataRender = (sessionData: ISession) => {
       const { sessionId, playerName, finishedAt, sentenceConstructorConfigs } = sessionData;
       if (sentenceConstructorConfigs === undefined) throw new Error("SC config undefined");
-      const sessionConfig = sentenceConstructorConfigs[0]
+      const sessionConfig = sentenceConstructorConfigs[sentenceConstructorConfigs.length - 1]
 
       return (
         <React.Fragment key={sessionId}>
