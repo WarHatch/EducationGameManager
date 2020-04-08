@@ -5,7 +5,12 @@
     "jsRules": {},
     "rules": {
         "only-arrow-functions": true,
-        "no-require-imports": true
+        "no-require-imports": true,
+        "quotemark": [
+            true,
+            "double"
+        ],
+        "ban-ts-ignore": "warning"
     },
     "rulesDirectory": []
 }

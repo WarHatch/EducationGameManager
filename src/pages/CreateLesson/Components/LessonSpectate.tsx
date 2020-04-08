@@ -1,14 +1,19 @@
-import React, { Component } from 'react'
-import { getLesson } from '../../../dataHandler';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Alert } from "react-bootstrap";
+import React, { Component } from "react"
+import { getLesson } from "../../../dataHandler";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import content from "../content";
+import { pushSessionRoute } from "../routerLogic";
 
-type S = {
+interface S {
   error: Error | null,
   lessonIdValue: string,
 }
 
-class LessonSpectate extends Component<RouteComponentProps, S> {
+interface P extends RouteComponentProps {
+  teacherKey: string
+}
+
+class LessonSpectate extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -20,7 +25,7 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
 
     this.setState((prevState) => {
@@ -34,13 +39,21 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
   async handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({error: null});
+
     const { lessonIdValue } = this.state;
+    const { teacherKey } = this.props;
+
+    if (!teacherKey) {
+      this.setState({ error: new Error("teacher key is missing") })
+      return;
+    }
     try {
       const newLessonData = await getLesson({
         id: lessonIdValue,
-        teacherId: "placeholder",
+        teacherId: teacherKey,
       })
-      this.props.history.push(`/lesson/${newLessonData.id}`);
+      pushSessionRoute(this, newLessonData.gameType, lessonIdValue);
     } catch (error) {
       this.setState({ error });
       console.error(error)
@@ -52,13 +65,11 @@ class LessonSpectate extends Component<RouteComponentProps, S> {
 
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
-        <label>
-          {"Spectate lesson id:"}
-        </label>
-        <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
+        <label>{content.lessonSpectate.lessonSpectateTitle.lt}</label>
+        <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Spectate" />
         {error &&
-          <Alert variant="danger">{error.message}</Alert>
+          <div className="alert alert-danger" role="alert">{error.message}</div>
         }
       </form>
     );

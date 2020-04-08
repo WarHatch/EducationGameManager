@@ -1,14 +1,13 @@
-import React from 'react'
+import React from "react"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
-import { render } from 'react-dom'
+import { render } from "react-dom"
 
-import SessionData from "./pages/SessionData";
 import ChooseLesson from "./pages/CreateLesson";
+import { sentenceConstructorSessionPageWithRoute, asteroidSessionPageWithRoute } from "./pages/SessionData";
 
 export type IGlobalState = {
 }
@@ -36,13 +35,16 @@ class App extends React.Component<{}, IGlobalState> {
     return (
       <Router>
         <Switch>
-          <Route path="/lesson/:lessonId">
-            <SessionData />
+          <Route path="/asteroid/lesson/:lessonId">
+            {asteroidSessionPageWithRoute}
+          </Route>
+          <Route path="/sentenceConstructor/lesson/:lessonId">
+            {sentenceConstructorSessionPageWithRoute}
           </Route>
           <Route exact path="/">
             <ChooseLesson />
           </Route>
-          <Route>{'Incorrect URL'}</Route>
+          <Route>{"Incorrect URL"}</Route>
         </Switch>
       </Router>
     );
@@ -51,5 +53,5 @@ class App extends React.Component<{}, IGlobalState> {
 
 render(
   <App />,
-  document.getElementById('app')
+  document.getElementById("app")
 );
