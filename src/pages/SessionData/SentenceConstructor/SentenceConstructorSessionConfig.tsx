@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-import { getLatestSessionConfig, sendLatestSCSessionConfig } from "../../../dataHandler/index";
+import { sendLatestSCSessionConfig } from "../../../dataHandler/index";
 
 // Types
 import { ISCSessionConfig } from "../../../dataHandler/data";
@@ -82,23 +82,18 @@ class SentenceConstructorSessionConfig extends Component<P, S> {
   renderSessionConfigPanel(sessionConfig: ISCSessionConfig, inputSessionConfig: IInputSessionConfig) {
     return (
       <div className="configPanel">
-        <p>{content.SentenceConstructor.configData.title.lt}</p>
-        <ul>
-          <li>{content.SentenceConstructor.configData.nextContentLabel.lt +
-            (sessionConfig.nextContentSlug ?? "")}</li>
-        </ul>
+        <b>{content.SentenceConstructor.configData.title.lt}</b>
+        {/* <li>{content.SentenceConstructor.configData.nextContentLabel.lt + (sessionConfig.nextContentSlug ?? "")}</li> */}
         <form className="container" onSubmit={(e) => this.onSend(e, sessionConfig.sessionId, inputSessionConfig)}>
           <div className="row">
             <div className="col-sm-9">
               <div className="row">
-                <label>{content.SentenceConstructor.configData.nextContentLabel.lt}</label>
+                {/* <label>{content.SentenceConstructor.configData.nextContentLabel.lt}</label>
                 <input
-                  name="nextContentSlug"
-                  type="text"
-                  className="form-control"
+                  name="nextContentSlug" type="text" className="form-control"
                   value={inputSessionConfig.nextContentSlug}
                   onChange={(e) => this.handleInputChange(e)}
-                />
+                /> */}
                 <label>{content.SentenceConstructor.configData.hintLabel.lt}</label>
                 <textarea
                   name="hintMessage"

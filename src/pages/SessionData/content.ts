@@ -20,8 +20,8 @@ export default {
 		},
 		instanceData: {
 			nameLabel: {
-				"en": "Data of: ",
-				"lt": "Mokinio vardas: "
+				"en": "Data of:",
+				"lt": "Mokinio vardas:"
 			},
 			startedLabel: {
 				"en": "game started at:",

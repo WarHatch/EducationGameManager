@@ -61,7 +61,7 @@ class SentenceConstructorInstanceData extends Component<P> {
 
     return (
       <div className="sessionInstance">
-        <p className="data">{content.SentenceConstructor.instanceData.nameLabel.lt + this.props.playerName}</p>
+        <p className="data">{content.SentenceConstructor.instanceData.nameLabel.lt} <i>{this.props.playerName}</i></p>
         {/* {error &&
           <div className="text-danger">{error.toString()}</div>
         } */}

@@ -15,7 +15,6 @@ interface P {
   sessionDataRender: (sessionData: ISession) => JSX.Element
 }
 
-// FIXME: rework for sentenceConstructor
 class SessionPageWrapper extends Component<P, S> {
   constructor(props) {
     super(props);
