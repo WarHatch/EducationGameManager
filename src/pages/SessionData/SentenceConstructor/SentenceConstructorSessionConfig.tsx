@@ -98,6 +98,7 @@ class SentenceConstructorSessionConfig extends Component<P, S> {
                 <textarea
                   name="hintMessage"
                   className="form-control"
+                  maxLength={500}
                   value={inputSessionConfig.hintMessage}
                   onChange={(e) => this.handleInputChange(e)}
                 />

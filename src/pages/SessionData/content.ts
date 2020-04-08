@@ -10,8 +10,8 @@ export default {
 				"lt": "Kitas užduočių rinkinys: "
 			},
 			hintLabel: {
-				"en": "Hint for the student ",
-				"lt": "Užuomina mokiniui "
+				"en": "Hint for the student (up to 500 symbols)",
+				"lt": "Užuomina mokiniui (iki 500 simbolių)"
 			},
 			sendButtonLabel: {
 				"en": "Send",
