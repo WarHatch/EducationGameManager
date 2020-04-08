@@ -3,35 +3,70 @@ interface IReturnedData {
   updatedAt: Date,
 }
 
-export interface IGameSessionData {
-  fullData: ISession;
-  averageReactionTime: number,
-  correctPercentage: number,
-  incorrectPercentage: number,
+export interface IAsteroidClickData extends IReturnedData {
+  id: number,
+  spawnToClickTime: number,
+  correct: boolean,
+  question: string,
+  sessionId: string,
 }
 
-export interface ISessionConfig {
+export interface ISentenceConstructorClickDataModel extends IReturnedData {
+  id: number,
+  sessionId: string
+  correct: boolean | null
+  spawnToClickTime: number
+  attemptedAnswer: string
+  attemptedSlotNumber: number | null
+}
+
+export interface ISentenceConstructorCompletedDataModel extends IReturnedData {
+  id: number,
+  sessionId: string
+  spawnToClickTime: number
+  attemptedAnswerString: string
+  correctPercentage: number | null,
+}
+
+// Deprecated
+export interface IGameSessionData extends IReturnedData {
+  fullData: ISession;
+  averageReactionTime: number | null,
+  correctPercentage: number | null,
+  incorrectPercentage: number | null,
+}
+
+export interface IAsteroidSessionConfig {
   sessionId: string,
   asteroidSpawnPerMinute: number,
   asteroidSecondsToCrash: number,
 }
 
+export interface ISCSessionConfig {
+  sessionId: string
+  hintMessage?: string
+  nextContentSlug?: string
+}
+
 export interface ISession extends IReturnedData {
   sessionId: string,
-  finishedAt: Date,
   lessonId: string,
   playerName: string,
-
-  sessionConfigs: ISessionConfig[],
+  finishedAt: Date,
+  asteroidClickData?: IAsteroidClickData[],
+  asteroidSessionConfigs?: IAsteroidSessionConfig[],
+  sentenceConstructorClickData?: ISentenceConstructorClickDataModel[],
+  sentenceConstructorCompletedData?: ISentenceConstructorCompletedDataModel[],
+  sentenceConstructorConfigs?: ISCSessionConfig[],
 }
+
+// interface game<T> { type: T }
+
+// interface asteroidGame extends game<"asteroid"> {}
 
 export interface ILesson extends IReturnedData {
   id: string,
   teacherId: string,
-  gameType: {
-    type: "asteroid",
-    // TODO: add more config
-    [key: string]: any
-  },
+  gameType: string,
   sessions: ISession[]
 }

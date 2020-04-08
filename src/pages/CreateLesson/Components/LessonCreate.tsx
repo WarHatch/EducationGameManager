@@ -1,14 +1,21 @@
-import React, { Component } from 'react'
-import { createLesson } from '../../../dataHandler';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Alert } from "react-bootstrap";
+import React, { Component } from "react"
+import { createLesson, getGameContentType } from "../../../dataHandler";
+import errorHandler from "../../../errorHandler";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import content from "../content";
+import { pushSessionRoute } from "../routerLogic";
 
-type S = {
-  error: Error | null,
+interface S {
+  error: Error | string | null,
   lessonIdValue: string,
 }
 
-class SessionForm extends Component<RouteComponentProps, S> {
+interface P extends RouteComponentProps {
+  teacherKey: string,
+  contentSlug: string,
+}
+
+class LessonCreateForm extends Component<P, S> {
   constructor(props) {
     super(props);
 
@@ -20,7 +27,7 @@ class SessionForm extends Component<RouteComponentProps, S> {
 
   handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const { name } = target;
 
     this.setState((prevState) => {
@@ -34,22 +41,33 @@ class SessionForm extends Component<RouteComponentProps, S> {
   async handleSubmit(event) {
     event.preventDefault();
 
+    this.setState({ error: null });
+
     const { lessonIdValue } = this.state;
-    const type = "asteroid";
+    const { teacherKey, contentSlug } = this.props;
+    if (!teacherKey) {
+      this.setState({ error: "teacher key is missing" })
+      return;
+    }
+    if (!contentSlug) {
+      this.setState({ error: "contentSlug is missing" })
+      return;
+    }
 
     try {
-      const newLessonData = await createLesson({
-        id: lessonIdValue,
-        teacherId: "placeholder",
-        gameType: {
-          type
-        },
-        sessions: [],
-      })
-      this.props.history.push(`/lesson/${newLessonData.id}`);
+      const gameContentType = await getGameContentType(contentSlug);
+      if (gameContentType !== null) {
+        const newLessonData = await createLesson({
+          id: lessonIdValue,
+          teacherId: teacherKey,
+          contentSlug,
+          gameType: gameContentType,
+          sessions: [],
+        })
+        pushSessionRoute(this, gameContentType, lessonIdValue)
+      }
     } catch (error) {
-      this.setState({ error });
-      console.error(error)
+      errorHandler(error, (errorMessage) => this.setState({ error: errorMessage }))
     }
   }
 
@@ -59,16 +77,16 @@ class SessionForm extends Component<RouteComponentProps, S> {
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
         <label>
-          {"New lesson Id:"}
+          {content.lessonCreate.newLessonIdTitle.lt}
         </label>
-        <input name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
+        <input required name="lessonIdValue" type="text" value={lessonIdValue} onChange={(event) => this.handleInputChange(event)} />
         <input type="submit" value="Create & Spectate" />
         {error &&
-          <Alert variant="danger">{error.message}</Alert>
+          <div className="alert alert-danger" role="alert">{error}</div>
         }
       </form>
     );
   }
 }
 
-export default withRouter(SessionForm);
+export default withRouter(LessonCreateForm);
