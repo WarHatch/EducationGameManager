@@ -10,7 +10,8 @@ export const getGameContentType = async (contentSlug: string): Promise<string> =
   const query = `*[contentSlug.current == "${contentSlug}"]`
 
   const result = await sanityClient.fetch(query);
-  // TODO: handle 0 results
+  if (result[0] === undefined)
+    throw new Error(`contentSlug: "${contentSlug}" did not return any results`)
   
   return result[0]._type;
 }
