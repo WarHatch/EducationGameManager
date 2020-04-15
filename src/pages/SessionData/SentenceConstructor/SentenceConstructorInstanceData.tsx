@@ -33,7 +33,7 @@ class SentenceConstructorInstanceData extends Component<P> {
         <li>{`${content.SentenceConstructor.instanceData.statusLabel.lt} ${finishedAt ?
           `${content.SentenceConstructor.instanceData.statusText.lt} ${moment(finishedAt).format("l")} ${moment(finishedAt).format("LTS")}` :
           content.misc.inProgressText.lt}`}</li>
-        {/* TODO: keep in mind multiple game sessions */}
+        {/* multiple game sessions aren't implemented atm */}
         <li>{`Bandymų atsakyti eiga: `}
           {answerAttemptData.map((c) =>
             <ClickRecap key={c.id}
