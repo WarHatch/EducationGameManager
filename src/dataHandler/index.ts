@@ -75,7 +75,6 @@ interface ILessonCreate {
   teacherId: string,
   contentSlug: string,
   gameType: string,
-  gameContentJSON?: string,
   sessions: ISession[],
 }
 export const createLesson = async (lessonData: ILessonCreate): Promise<ILesson> => {

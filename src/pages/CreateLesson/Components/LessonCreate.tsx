@@ -5,12 +5,6 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import content from "../content";
 import { pushSessionRoute } from "../routerLogic";
 
-const isCorrectGameContentType = (gametype: string) => {
-  // TODO: implement a hardcoded list in db with gametype names 
-  if (gametype === "sentenceConstructor") return true;
-  return false;
-}
-
 interface S {
   error: Error | string | null,
   lessonIdValue: string,
@@ -19,7 +13,6 @@ interface S {
 interface P extends RouteComponentProps {
   teacherKey: string,
   contentSlug: string,
-  contentJSONInput: string,
 }
 
 class LessonCreateForm extends Component<P, S> {
@@ -51,52 +44,30 @@ class LessonCreateForm extends Component<P, S> {
     this.setState({ error: null });
 
     const { lessonIdValue } = this.state;
-    const { teacherKey, contentSlug, contentJSONInput } = this.props;
+    const { teacherKey, contentSlug } = this.props;
     if (!teacherKey) {
-      this.setState({ error: "Trūksta mokytojo kodo" })
+      this.setState({ error: "teacher key is missing" })
       return;
     }
     if (!contentSlug) {
-      // Check if contentJSON is provided instead
-      if (!contentJSONInput) {
-        this.setState({ error: "Trūksta turinio kodo arba turinio JSON" })
-        return;
+      this.setState({ error: "contentSlug is missing" })
+      return;
+    }
+
+    try {
+      const gameContentType = await getGameContentType(contentSlug);
+      if (gameContentType !== null) {
+        const newLessonData = await createLesson({
+          id: lessonIdValue,
+          teacherId: teacherKey,
+          contentSlug,
+          gameType: gameContentType,
+          sessions: [],
+        })
+        pushSessionRoute(this, gameContentType, lessonIdValue)
       }
-      let contentObject: any = null;
-      try {
-        contentObject = JSON.parse(contentJSONInput)
-        if (!isCorrectGameContentType(contentObject._type)) throw new Error(contentObject._type + " nėra žinomas žaidimo tipas")
-      } catch (error) {
-        this.setState({ error: "Turinio JSON netinkamas: \n" + error.message })
-        return;
-      }
-      const gameContentType = contentObject._type;
-      const newLessonData = await createLesson({
-        id: lessonIdValue,
-        teacherId: teacherKey,
-        contentSlug,
-        gameType: gameContentType,
-        gameContentJSON: contentJSONInput,
-        sessions: [],
-      })
-      pushSessionRoute(this, gameContentType, lessonIdValue)
-    } else {
-      // Find if content exists
-      try {
-        const gameContentType = await getGameContentType(contentSlug);
-        if (gameContentType !== null) {
-          const newLessonData = await createLesson({
-            id: lessonIdValue,
-            teacherId: teacherKey,
-            contentSlug,
-            gameType: gameContentType,
-            sessions: [],
-          })
-          pushSessionRoute(this, gameContentType, lessonIdValue)
-        }
-      } catch (error) {
-        errorHandler(error, (errorMessage) => this.setState({ error: errorMessage }))
-      }
+    } catch (error) {
+      errorHandler(error, (errorMessage) => this.setState({ error: errorMessage }))
     }
   }
 
